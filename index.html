@@ -1,107 +1,259 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Emirates Airlines (Unified)</title>
-<link rel="stylesheet" href="assets/css/style.css">
-<script defer src="assets/js/main.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Emirates Airlines (Unified) — Fly Better</title>
+  <meta name="description" content="The virtual Emirates Airlines experience operated by Emirates Group Roblox across PTFS and RO-Aviation." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --brand-red:#d71920;   /* primary */
+      --brand-gold:#b38b2e;  /* accent */
+      --ink:#111;
+      --ink-2:#333;
+      --muted:#6b7280;
+      --line:#eee;
+      --bg:#ffffff;
+      --bg-soft:#f9f9f9;
+      --radius:16px;
+      --shadow:0 8px 24px rgba(0,0,0,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:var(--brand-red);text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Top ribbon */
+    .ribbon{background:var(--brand-red);color:#fff;font-size:.9rem}
+    .ribbon .wrap{max-width:1200px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .ribbon .mini-links a{color:#fff;opacity:.9;margin-left:14px}
+    .ribbon .mini-links a:hover{opacity:1}
+
+    /* Nav */
+    .nav{position:sticky;top:0;background:#fff;z-index:50;border-bottom:1px solid var(--line)}
+    .nav .wrap{max-width:1200px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;gap:18px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--ink)}
+    .brand-logo{width:110px;height:28px;background:var(--brand-red);border-radius:6px;position:relative;box-shadow:var(--shadow)}
+    .brand-logo:after{content:"EGR";position:absolute;inset:auto 8px 4px 8px;color:#fff;font-weight:800;letter-spacing:.06em;top:50%;transform:translateY(-50%);font-size:.9rem}
+    .nav ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+    .nav li a{display:block;padding:10px 12px;border-radius:10px;color:var(--ink-2);font-weight:600}
+    .nav li a:hover{background:var(--bg-soft)}
+    .nav .cta a{background:var(--brand-red);color:#fff;border-radius:999px;padding:10px 14px}
+    .nav .cta a:hover{background:#b9151b;text-decoration:none}
+
+    /* Hero */
+    .hero{position:relative;height:64vh;min-height:420px;border-bottom:1px solid var(--line);overflow:hidden}
+    .slides{position:absolute;inset:0}
+    .slide{position:absolute;inset:0;opacity:0;transition:opacity .8s ease}
+    .slide.active{opacity:1}
+    .slide img{width:100%;height:100%;object-fit:cover}
+    .veil{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.15) 40%, rgba(0,0,0,.55));pointer-events:none}
+    .hero-copy{position:absolute;left:6%;bottom:9%;max-width:700px;color:#fff}
+    .eyebrow{display:inline-block;background:rgba(255,255,255,.12);backdrop-filter:saturate(120%) blur(2px);border:1px solid rgba(255,255,255,.2);padding:6px 10px;border-radius:999px;font-size:.85rem;margin-bottom:10px}
+    .hero h1{margin:0 0 8px;font-size:clamp(26px,4.2vw,44px);font-family:Merriweather,Georgia,serif;line-height:1.15}
+    .hero p{margin:0 0 16px;font-size:clamp(14px,1.8vw,18px)}
+    .btn{display:inline-block;background:var(--brand-red);color:#fff;padding:12px 16px;border-radius:999px;font-weight:700;box-shadow:var(--shadow)}
+    .btn:hover{background:#b9151b;text-decoration:none}
+    .btn.alt{background:#fff;color:var(--ink);border:1px solid var(--line)}
+    .dots{position:absolute;left:6%;bottom:5%;display:flex;gap:6px}
+    .dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.5)}
+    .dot.active{background:#fff}
+
+    /* Quick panels */
+    .container{max-width:1200px;margin:0 auto;padding:28px 16px}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .col-4{grid-column:span 4}
+    .card{border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:18px;box-shadow:var(--shadow)}
+    .card h3{margin:4px 0 6px}
+    .card p{margin:0 0 12px;color:var(--muted)}
+    .list{margin:0;padding-left:18px}
+    .list li{margin:.25rem 0}
+
+    /* Footer */
+    footer{background:#fff;border-top:1px solid var(--line);margin-top:28px}
+    .foot{max-width:1200px;margin:0 auto;padding:28px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+    .foot h4{margin:0 0 8px}
+    .muted{color:var(--muted)}
+    .legal{border-top:1px solid var(--line);padding:14px 16px;color:var(--muted);font-size:.9rem;text-align:center}
+
+    /* Cookie */
+    .cookie{position:fixed;left:16px;right:16px;bottom:16px;background:#111;color:#fff;border-radius:14px;padding:14px 16px;display:none;align-items:center;justify-content:space-between;gap:12px;z-index:100}
+    .cookie .btn{background:#fff;color:#111;padding:10px 14px}
+    @media (max-width:900px){
+      .col-4{grid-column:span 12}
+      .hero{height:58vh}
+    }
+  </style>
 </head>
 <body>
-<!-- NAV -->
-<div class="nav">
-  <div class="container">
-    <a class="brand" href="index.html">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/61/Emirates_logo.svg" alt="Emirates">
-      <span>Emirates Airlines (Unified)</span>
-    </a>
-    <ul>
-      <li><a href="booking.html">Book</a></li>
-      <li><a href="about.html">About Us</a></li>
-      <li><a href="staff.html">Our Staff</a></li>
-      <li><a href="contact.html">Contact Us</a></li>
-      <li><a href="skywards.html">Emirates Skywards</a></li>
-      <li><a href="flight-status.html">Flight Status</a></li>
-      <li><a href="checkin.html">Online Check-In</a></li>
-      <li><a href="discover.html">Discover</a></li>
-      <li><a href="links.html">Links</a></li>
-      <li><a href="legal.html">Legal</a></li>
-    </ul>
-  </div>
-</div>
 
-<!-- HERO SLIDER -->
-<section class="hero">
-  <div class="slide active">
-    <img src="assets/img/banner1.jpg" alt="Banner 1">
-    <div class="caption">
-      <h2>Fly better with Emirates Airlines (Unified)</h2>
-      <div>Immersive Roblox aviation across PTFS & RO-Aviation.</div>
+  <!-- Top ribbon -->
+  <div class="ribbon">
+    <div class="wrap">
+      <div><strong>Emirates Airlines (Unified)</strong> — a virtual experience by Emirates Group Roblox</div>
+      <div class="mini-links">
+        <a href="links.html">Links</a>
+        <a href="legal.html">Legal</a>
+      </div>
     </div>
   </div>
-  <div class="slide">
-    <img src="assets/img/banner2.jpg" alt="Banner 2">
-    <div class="caption">
-      <h2>Book your next journey</h2>
-      <div>Simple booking—instant reference sent to our team.</div>
-    </div>
-  </div>
-  <div class="slide">
-    <img src="assets/img/banner3.jpg" alt="Banner 3">
-    <div class="caption">
-      <h2>Skywards & Investors</h2>
-      <div>Earn miles via participation and investor tiers.</div>
-    </div>
-  </div>
-</section>
 
-<div class="container">
-  <div class="grid">
-    <div class="card">
-      <h3>Ready to book?</h3>
-      <p>Use our streamlined booking form. Your request is sent to our staff via Discord for fast handling.</p>
-      <a class="btn" href="booking.html">Start booking</a>
+  <!-- Navigation -->
+  <nav class="nav" aria-label="Primary">
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="Emirates Airlines (Unified) home">
+        <span class="brand-logo" aria-hidden="true"></span>
+        <span>Emirates Airlines (Unified)</span>
+      </a>
+      <ul role="menubar" aria-label="Main menu">
+        <li role="none"><a role="menuitem" href="booking.html">Book</a></li>
+        <li role="none"><a role="menuitem" href="about.html">About Us</a></li>
+        <li role="none"><a role="menuitem" href="staff.html">Our Staff</a></li>
+        <li role="none"><a role="menuitem" href="contact.html">Contact Us</a></li>
+        <li role="none"><a role="menuitem" href="skywards.html">Emirates Skywards</a></li>
+        <li role="none"><a role="menuitem" href="flight-status.html">Flight Status</a></li>
+        <li role="none"><a role="menuitem" href="checkin.html">Online Check-In</a></li>
+        <li role="none"><a role="menuitem" href="discover.html">Discover</a></li>
+        <li class="cta" role="none"><a role="menuitem" href="booking.html">Book a flight</a></li>
+      </ul>
     </div>
-    <div class="card">
-      <h3>Online Check-in</h3>
-      <p>Already booked? Retrieve your ticket quickly and check in online.</p>
-      <a class="btn" href="checkin.html">Check in</a>
-    </div>
-    <div class="card">
-      <h3>Flight Status</h3>
-      <p>View live operations on the Flight Dashboard.</p>
-      <a class="btn" href="flight-status.html">Open dashboard</a>
-    </div>
-  </div>
-</div>
+  </nav>
 
-<!-- FOOTER -->
-<footer>
-  <div class="container cols">
+  <!-- Hero -->
+  <section class="hero" aria-label="Featured">
+    <div class="slides" aria-live="polite">
+      <!-- Replace src values with your 5 images -->
+      <figure class="slide active"><img src="assets/img/hero1.jpg" alt="Emirates aircraft boarding at dusk"><div class="veil"></div></figure>
+      <figure class="slide"><img src="assets/img/hero2.jpg" alt="Premium cabin interior"><div class="veil"></div></figure>
+      <figure class="slide"><img src="assets/img/hero3.jpg" alt="Crew welcoming guests"><div class="veil"></div></figure>
+      <figure class="slide"><img src="assets/img/hero4.jpg" alt="Global network map"><div class="veil"></div></figure>
+      <figure class="slide"><img src="assets/img/hero5.jpg" alt="Runway line-up"><div class="veil"></div></figure>
+    </div>
+
+    <div class="hero-copy">
+      <span class="eyebrow">Fly better — PTFS / RO-Aviation</span>
+      <h1>Book. Check-in. Fly. A seamless virtual Emirates experience.</h1>
+      <p>Simple booking, instant references to our ops team, and Skywards-style recognition across the Emirates Group Roblox ecosystem.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn" href="booking.html">Start booking</a>
+        <a class="btn alt" href="checkin.html">Online check-in</a>
+      </div>
+    </div>
+
+    <div class="dots" aria-hidden="true">
+      <span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+  </section>
+
+  <!-- Quick actions -->
+  <main class="container">
+    <section class="grid" aria-label="Quick actions">
+      <article class="col-4 card">
+        <h3>Book a flight</h3>
+        <p>Submit your itinerary; our team receives it instantly via secure Discord integration.</p>
+        <a class="btn" href="booking.html">Book now</a>
+      </article>
+      <article class="col-4 card">
+        <h3>Flight status</h3>
+        <p>Track live operations on our Flight Dashboard in real time.</p>
+        <a class="btn" href="flight-status.html">Open dashboard</a>
+      </article>
+      <article class="col-4 card">
+        <h3>Emirates Skywards</h3>
+        <p>Earn miles through participation and investor tiers. Managed by our staff systems.</p>
+        <a class="btn" href="skywards.html">Learn more</a>
+      </article>
+    </section>
+
+    <section class="grid" style="margin-top:16px" aria-label="Why fly with us">
+      <article class="col-4 card">
+        <h3>Cabins</h3>
+        <p class="muted">Economy, Business, and First Class experiences tailored to every journey.</p>
+        <ul class="list">
+          <li>Priority chauffeur for premium cabins</li>
+          <li>Streamlined pre-flight handling</li>
+          <li>On-board service standards</li>
+        </ul>
+      </article>
+      <article class="col-4 card">
+        <h3>Network</h3>
+        <p class="muted">Hub-and-spoke operations across PTFS and RO-Aviation events and sectors.</p>
+        <ul class="list">
+          <li>Regular schedules & special fly-outs</li>
+          <li>Training & development flights</li>
+          <li>Community collaborations</li>
+        </ul>
+      </article>
+      <article class="col-4 card">
+        <h3>Support</h3>
+        <p class="muted">Customer Service Representatives are ready to help.</p>
+        <ul class="list">
+          <li><a href="https://emiratesgrouproblox.link/support" target="_blank" rel="noopener">Support Center</a></li>
+          <li><a href="contact.html">Contact form</a></li>
+          <li><a href="links.html">All links</a></li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="foot">
+      <div>
+        <h4>About</h4>
+        <p class="muted">Emirates Airlines (Unified) is a virtual airline operated by Emirates Group Roblox, focused on realism, safety, and hospitality across PTFS / RO-Aviation.</p>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <p class="muted">
+          Discord: <a href="https://discord.gg/RaudauJNn9" target="_blank" rel="noopener">Join</a><br>
+          Support: <a href="https://emiratesgrouproblox.link/support" target="_blank" rel="noopener">Support Center</a><br>
+          Website: <a href="https://emiratesgrouproblox.link" target="_blank" rel="noopener">emiratesgrouproblox.link</a>
+        </p>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <p class="muted">
+          <a href="legal.html">Terms & Policies</a><br>
+          <small>Not affiliated with Emirates Airline. For virtual community use only.</small>
+        </p>
+      </div>
+    </div>
+    <div class="legal">© 2025 Emirates Group Roblox • All rights reserved</div>
+  </footer>
+
+  <!-- Cookie notice -->
+  <div id="cookie" class="cookie" role="dialog" aria-live="polite" aria-label="Cookie notice">
     <div>
-      <h3>Emirates Airlines (Unified)</h3>
-      <div class="note">A virtual airline within the Emirates Group Roblox ecosystem.</div>
+      <strong>We use cookies.</strong>
+      <div class="muted">Essential cookies keep this site working and help improve your experience.</div>
     </div>
-    <div>
-      <h4>Support</h4>
-      <a href="https://emiratesgrouproblox.link/support" target="_blank" rel="noopener">Support Center</a><br>
-      <a href="https://discord.gg/RaudauJNn9" target="_blank" rel="noopener">Discord</a>
-    </div>
-    <div>
-      <h4>Legal</h4>
-      <a href="legal.html">Terms & Policies</a><br>
-      <small class="muted">&copy; 2025 Emirates Group Roblox</small>
-    </div>
+    <button class="btn" onclick="(localStorage.setItem('egr_cookies','1'), document.getElementById('cookie').style.display='none')">Accept</button>
   </div>
-</footer>
 
-<!-- COOKIE -->
-<div id="cookie" class="cookie">
-  <div>
-    <strong>We use cookies.</strong>
-    <div class="note">We use essential cookies to keep this site working and to improve your experience.</div>
-  </div>
-  <button class="btn" onclick="acceptCookies()">Accept</button>
-</div>
+  <script>
+    // Simple carousel
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const dots   = Array.from(document.querySelectorAll('.dot'));
+    let i = 0;
+    function show(n){
+      slides.forEach(s=>s.classList.remove('active'));
+      dots.forEach(d=>d.classList.remove('active'));
+      slides[n].classList.add('active');
+      dots[n].classList.add('active');
+      i = n;
+    }
+    function next(){ show((i+1) % slides.length); }
+    setInterval(next, 5000);
+    dots.forEach((d,idx)=>d.addEventListener('click', ()=>show(idx)));
+    // Cookie
+    window.addEventListener('load', ()=>{
+      if(!localStorage.getItem('egr_cookies')){
+        document.getElementById('cookie').style.display='flex';
+      }
+    });
+  </script>
 </body>
 </html>
