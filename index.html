@@ -17,33 +17,51 @@
       --line:#eee;
       --bg:#ffffff;
       --bg-soft:#f9f9f9;
-      --radius:16px;
+      --radius:12px;
       --shadow:0 8px 24px rgba(0,0,0,.08);
+      --nav-height:68px;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; -webkit-font-smoothing:antialiased}
     a{color:var(--brand-red);text-decoration:none}
     a:hover{text-decoration:underline}
 
     /* Top ribbon */
     .ribbon{background:var(--brand-red);color:#fff;font-size:.9rem}
     .ribbon .wrap{max-width:1200px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .ribbon .mini-links a{color:#fff;opacity:.9;margin-left:14px}
-    .ribbon .mini-links a:hover{opacity:1}
+    .ribbon .mini-links a{color:#fff;opacity:.95;margin-left:14px}
 
-    /* Nav */
-    .nav{position:sticky;top:0;background:#fff;z-index:50;border-bottom:1px solid var(--line)}
-    .nav .wrap{max-width:1200px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;gap:18px}
+    /* NAV - Emirates style */
+    .nav{position:sticky;top:0;background:#fff;z-index:120;border-bottom:1px solid var(--line);box-shadow:0 2px 8px rgba(0,0,0,.03)}
+    .nav .wrap{max-width:1200px;margin:0 auto;padding:8px 16px;height:var(--nav-height);display:flex;align-items:center;gap:18px}
     .brand{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--ink)}
     .brand-logo{width:110px;height:28px;background:var(--brand-red);border-radius:6px;position:relative;box-shadow:var(--shadow)}
     .brand-logo:after{content:"EGR";position:absolute;inset:auto 8px 4px 8px;color:#fff;font-weight:800;letter-spacing:.06em;top:50%;transform:translateY(-50%);font-size:.9rem}
-    .nav ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
-    .nav li a{display:block;padding:10px 12px;border-radius:10px;color:var(--ink-2);font-weight:600}
-    .nav li a:hover{background:var(--bg-soft)}
-    .nav .cta a{background:var(--brand-red);color:#fff;border-radius:999px;padding:10px 14px}
-    .nav .cta a:hover{background:#b9151b;text-decoration:none}
 
-    /* Hero */
+    .menu{display:flex;align-items:center;gap:6px;margin-left:12px}
+    .menu > .menu-item{position:relative}
+    .menu > .menu-item > button{background:none;border:0;padding:10px 12px;border-radius:8px;font-weight:600;color:var(--ink-2);cursor:pointer}
+    .menu > .menu-item > button:hover{background:var(--bg-soft)}
+
+    /* Dropdown panel */
+    .dropdown{position:absolute;left:0;top:calc(100% + 8px);min-width:260px;background:#fff;border:1px solid var(--line);box-shadow:0 12px 30px rgba(0,0,0,.08);border-radius:12px;padding:12px;display:none}
+    .dropdown.show{display:block}
+    .dropdown .col{display:flex;flex-direction:column;gap:8px}
+    .dropdown a{display:block;padding:8px;border-radius:8px;color:var(--ink-2);font-weight:600}
+    .dropdown a small{display:block;color:var(--muted);font-weight:400}
+
+    .spacer{flex:1}
+    .cta{margin-left:auto}
+    .cta a{background:var(--brand-red);color:#fff;border-radius:999px;padding:10px 14px;font-weight:700}
+    .cta a:hover{background:#b9151b}
+
+    /* Mobile */
+    .mobile-toggle{display:none;border:0;background:none;font-size:20px;padding:8px;margin-right:4px}
+    .mobile-nav{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200}
+    .mobile-drawer{position:fixed;right:0;top:0;height:100%;width:320px;background:#fff;padding:20px;box-shadow:-12px 0 30px rgba(0,0,0,.12)}
+    .mobile-drawer a{display:block;padding:10px 6px;border-radius:8px}
+
+    /* Hero (LEFT EXACTLY AS REQUESTED) */
     .hero{position:relative;height:64vh;min-height:420px;border-bottom:1px solid var(--line);overflow:hidden}
     .slides{position:absolute;inset:0}
     .slide{position:absolute;inset:0;opacity:0;transition:opacity .8s ease}
@@ -61,29 +79,40 @@
     .dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.5)}
     .dot.active{background:#fff}
 
-    /* Quick panels */
+    /* Main content — image tiles like Emirates */
     .container{max-width:1200px;margin:0 auto;padding:28px 16px}
+    .section-heading{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+    .section-heading h2{margin:0;font-size:1.6rem}
     .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
     .col-4{grid-column:span 4}
-    .card{border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:18px;box-shadow:var(--shadow)}
-    .card h3{margin:4px 0 6px}
-    .card p{margin:0 0 12px;color:var(--muted)}
-    .list{margin:0;padding-left:18px}
-    .list li{margin:.25rem 0}
+    .card{border-radius:12px;overflow:hidden;position:relative;background:#fff;box-shadow:var(--shadow)}
+    .tile{height:220px;background-size:cover;background-position:center;display:flex;align-items:flex-end;padding:16px;color:#fff}
+    .tile .overlay{backdrop-filter:blur(2px);background:linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.45));width:100%;padding:12px;border-radius:8px}
+    .tile h3{margin:0 0 6px}
+    .tile p{margin:0;font-size:0.95rem;color:rgba(255,255,255,.9)}
+    .tile .btn{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.12);padding:8px 12px;border-radius:999px;font-weight:700}
+
+    /* Why fly section (icons) */
+    .feature-list{display:flex;gap:12px;flex-wrap:wrap}
+    .feature{background:#fff;border:1px solid var(--line);padding:14px;border-radius:12px;flex:1;min-width:220px}
 
     /* Footer */
     footer{background:#fff;border-top:1px solid var(--line);margin-top:28px}
-    .foot{max-width:1200px;margin:0 auto;padding:28px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-    .foot h4{margin:0 0 8px}
+    .foot{max-width:1200px;margin:0 auto;padding:32px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .foot h4{margin:0 0 8px;color:var(--brand-gold)}
     .muted{color:var(--muted)}
     .legal{border-top:1px solid var(--line);padding:14px 16px;color:var(--muted);font-size:.9rem;text-align:center}
 
     /* Cookie */
     .cookie{position:fixed;left:16px;right:16px;bottom:16px;background:#111;color:#fff;border-radius:14px;padding:14px 16px;display:none;align-items:center;justify-content:space-between;gap:12px;z-index:100}
     .cookie .btn{background:#fff;color:#111;padding:10px 14px}
-    @media (max-width:900px){
+
+    @media (max-width:980px){
+      .menu{display:none}
+      .mobile-toggle{display:block}
       .col-4{grid-column:span 12}
       .hero{height:58vh}
+      .tile{height:160px}
     }
   </style>
 </head>
@@ -100,24 +129,65 @@
     </div>
   </div>
 
-  <!-- Navigation -->
+  <!-- Navigation (updated) -->
   <nav class="nav" aria-label="Primary">
     <div class="wrap">
       <a class="brand" href="index.html" aria-label="Emirates Airlines (Unified) home">
         <span class="brand-logo" aria-hidden="true"></span>
         <span>Emirates Airlines (Unified)</span>
       </a>
-      <ul role="menubar" aria-label="Main menu">
-        <li role="none"><a role="menuitem" href="booking.html">Book</a></li>
-        <li role="none"><a role="menuitem" href="about.html">About Us</a></li>
-        <li role="none"><a role="menuitem" href="staff.html">Our Staff</a></li>
-        <li role="none"><a role="menuitem" href="contact.html">Contact Us</a></li>
-        <li role="none"><a role="menuitem" href="skywards.html">Emirates Skywards</a></li>
-        <li role="none"><a role="menuitem" href="flight-status.html">Flight Status</a></li>
-        <li role="none"><a role="menuitem" href="checkin.html">Online Check-In</a></li>
-        <li role="none"><a role="menuitem" href="discover.html">Discover</a></li>
-        <li class="cta" role="none"><a role="menuitem" href="booking.html">Book a flight</a></li>
-      </ul>
+
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Open menu">☰</button>
+
+      <div class="menu" role="menubar" aria-label="Main menu">
+        <div class="menu-item" data-key="book">
+          <button aria-haspopup="true" aria-expanded="false">Book ▾</button>
+          <div class="dropdown" data-panel="book" aria-hidden="true">
+            <div class="col">
+              <a href="booking.html">Book a Flight <small>Start a new booking</small></a>
+              <a href="flight-status.html">Flight Status <small>Live operations dashboard</small></a>
+              <a href="checkin.html">Online Check-in <small>Check in and manage bags</small></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-key="experience">
+          <button aria-haspopup="true" aria-expanded="false">Experience ▾</button>
+          <div class="dropdown" data-panel="experience" aria-hidden="true">
+            <div class="col">
+              <a href="discover.html#cabins">Cabins <small>Economy, Business, First</small></a>
+              <a href="discover.html#network">Network <small>Our virtual routes</small></a>
+              <a href="skywards.html">Skywards <small>Rewards & tiers</small></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-key="about">
+          <button aria-haspopup="true" aria-expanded="false">About Us ▾</button>
+          <div class="dropdown" data-panel="about" aria-hidden="true">
+            <div class="col">
+              <a href="about.html">About Emirates <small>Who we are</small></a>
+              <a href="staff.html">Our Staff <small>Meet the team</small></a>
+              <a href="legal.html">Legal & Policies <small>Terms and policies</small></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-key="help">
+          <button aria-haspopup="true" aria-expanded="false">Help ▾</button>
+          <div class="dropdown" data-panel="help" aria-hidden="true">
+            <div class="col">
+              <a href="contact.html">Contact Us <small>Get in touch</small></a>
+              <a href="https://emiratesgrouproblox.link/support" target="_blank" rel="noopener">Support Center <small>Help articles</small></a>
+              <a href="links.html">Links <small>All useful links</small></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="spacer" aria-hidden="true"></div>
+      <div class="cta"><a href="booking.html">Book a flight</a></div>
     </div>
   </nav>
 
@@ -147,55 +217,78 @@
     </div>
   </section>
 
-  <!-- Quick actions -->
+  <!-- New homepage content: image tiles and features -->
   <main class="container">
-    <section class="grid" aria-label="Quick actions">
-      <article class="col-4 card">
-        <h3>Book a flight</h3>
-        <p>Submit your itinerary; our team receives it instantly via secure Discord integration.</p>
-        <a class="btn" href="booking.html">Book now</a>
-      </article>
-      <article class="col-4 card">
-        <h3>Flight status</h3>
-        <p>Track live operations on our Flight Dashboard in real time.</p>
-        <a class="btn" href="flight-status.html">Open dashboard</a>
-      </article>
-      <article class="col-4 card">
-        <h3>Emirates Skywards</h3>
-        <p>Earn miles through participation and investor tiers. Managed by our staff systems.</p>
-        <a class="btn" href="skywards.html">Learn more</a>
-      </article>
+
+    <section aria-label="Explore" style="margin-bottom:18px">
+      <div class="section-heading">
+        <h2>Explore Emirates</h2>
+        <div class="muted">Discover our services and tools across the Emirates Group Roblox network.</div>
+      </div>
+
+      <div class="grid">
+        <article class="col-4 card">
+          <a href="booking.html" aria-label="Book a flight">
+            <div class="tile" style="background-image: url('assets/img/tile-book.jpg')">
+              <div class="overlay">
+                <h3>Book a flight</h3>
+                <p>Fast, simple booking integrated with staff ops.</p>
+                <div style="margin-top:8px"><span class="btn">Start booking</span></div>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <article class="col-4 card">
+          <a href="flight-status.html" aria-label="Flight status">
+            <div class="tile" style="background-image: url('assets/img/tile-status.jpg')">
+              <div class="overlay">
+                <h3>Live flight status</h3>
+                <p>Open our real-time Flight Dashboard for current ops.</p>
+                <div style="margin-top:8px"><span class="btn">Open dashboard</span></div>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <article class="col-4 card">
+          <a href="skywards.html" aria-label="Skywards">
+            <div class="tile" style="background-image: url('assets/img/tile-skywards.jpg')">
+              <div class="overlay">
+                <h3>Emirates Skywards</h3>
+                <p>Earn recognition and benefits across our virtual network.</p>
+                <div style="margin-top:8px"><span class="btn">Learn more</span></div>
+              </div>
+            </div>
+          </a>
+        </article>
+
+      </div>
     </section>
 
-    <section class="grid" style="margin-top:16px" aria-label="Why fly with us">
-      <article class="col-4 card">
-        <h3>Cabins</h3>
-        <p class="muted">Economy, Business, and First Class experiences tailored to every journey.</p>
-        <ul class="list">
-          <li>Priority chauffeur for premium cabins</li>
-          <li>Streamlined pre-flight handling</li>
-          <li>On-board service standards</li>
-        </ul>
-      </article>
-      <article class="col-4 card">
-        <h3>Network</h3>
-        <p class="muted">Hub-and-spoke operations across PTFS and RO-Aviation events and sectors.</p>
-        <ul class="list">
-          <li>Regular schedules & special fly-outs</li>
-          <li>Training & development flights</li>
-          <li>Community collaborations</li>
-        </ul>
-      </article>
-      <article class="col-4 card">
-        <h3>Support</h3>
-        <p class="muted">Customer Service Representatives are ready to help.</p>
-        <ul class="list">
-          <li><a href="https://emiratesgrouproblox.link/support" target="_blank" rel="noopener">Support Center</a></li>
-          <li><a href="contact.html">Contact form</a></li>
-          <li><a href="links.html">All links</a></li>
-        </ul>
-      </article>
+    <section aria-label="Why fly with us" style="margin-top:22px">
+      <div class="section-heading">
+        <h2>Why fly with us</h2>
+        <div class="muted">Standards inspired by real-world hospitality and safety.</div>
+      </div>
+
+      <div class="feature-list">
+        <div class="feature">
+          <h4>Cabins</h4>
+          <p class="muted">Economy, Business and First — standards and service modelled on real cabins.</p>
+        </div>
+        <div class="feature">
+          <h4>Network</h4>
+          <p class="muted">Hub-and-spoke operations across PTFS and RO-Aviation events and sectors.</p>
+        </div>
+        <div class="feature">
+          <h4>Support</h4>
+          <p class="muted">Customer Service Representatives and staff systems ready to help.</p>
+        </div>
+      </div>
+
     </section>
+
   </main>
 
   <!-- Footer -->
@@ -234,7 +327,68 @@
   </div>
 
   <script>
-    // Simple carousel
+    // Dropdown interactions
+    document.querySelectorAll('.menu-item').forEach(item => {
+      const btn = item.querySelector('button');
+      const panel = item.querySelector('.dropdown');
+      btn.addEventListener('click', (e) => {
+        const isOpen = panel.classList.contains('show');
+        document.querySelectorAll('.dropdown').forEach(p => p.classList.remove('show'));
+        document.querySelectorAll('.menu-item > button').forEach(b => b.setAttribute('aria-expanded','false'));
+        if(!isOpen){ panel.classList.add('show'); btn.setAttribute('aria-expanded','true'); }
+        else { panel.classList.remove('show'); btn.setAttribute('aria-expanded','false'); }
+      });
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+      if(!e.target.closest('.menu-item')){
+        document.querySelectorAll('.dropdown').forEach(p => p.classList.remove('show'));
+        document.querySelectorAll('.menu-item > button').forEach(b => b.setAttribute('aria-expanded','false'));
+      }
+    });
+
+    // Mobile menu
+    const mobileToggle = document.getElementById('mobileToggle');
+    let mobileDrawer;
+    mobileToggle && mobileToggle.addEventListener('click', ()=>{
+      if(!mobileDrawer){
+        mobileDrawer = document.createElement('div');
+        mobileDrawer.className = 'mobile-nav';
+        mobileDrawer.innerHTML = `
+          <div class="mobile-nav" onclick="this.remove()">
+            <div class="mobile-drawer" onclick="event.stopPropagation()">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+                <div style="display:flex;gap:10px;align-items:center"><span class="brand-logo" style="width:70px;height:20px"></span><strong>Emirates Airlines (Unified)</strong></div>
+                <button onclick="document.querySelector('.mobile-nav').remove()" style="border:0;background:none;font-size:22px">✕</button>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <a href="booking.html">Book a Flight</a>
+                <a href="flight-status.html">Flight Status</a>
+                <a href="checkin.html">Online Check-in</a>
+                <hr>
+                <a href="discover.html#cabins">Cabins</a>
+                <a href="discover.html#network">Network</a>
+                <a href="skywards.html">Skywards</a>
+                <hr>
+                <a href="about.html">About</a>
+                <a href="staff.html">Our Staff</a>
+                <a href="legal.html">Legal & Policies</a>
+                <hr>
+                <a href="contact.html">Contact Us</a>
+                <a href="links.html">Links</a>
+                <div style="margin-top:12px"><a class="btn" href="booking.html">Book a flight</a></div>
+              </div>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(mobileDrawer);
+      } else {
+        const existing = document.querySelector('.mobile-nav'); existing && existing.remove(); mobileDrawer = null;
+      }
+    });
+
+    // Simple carousel (hero) - preserved from your original file
     const slides = Array.from(document.querySelectorAll('.slide'));
     const dots   = Array.from(document.querySelectorAll('.dot'));
     let i = 0;
@@ -248,12 +402,14 @@
     function next(){ show((i+1) % slides.length); }
     setInterval(next, 5000);
     dots.forEach((d,idx)=>d.addEventListener('click', ()=>show(idx)));
+
     // Cookie
     window.addEventListener('load', ()=>{
       if(!localStorage.getItem('egr_cookies')){
         document.getElementById('cookie').style.display='flex';
       }
     });
+
   </script>
 </body>
 </html>
