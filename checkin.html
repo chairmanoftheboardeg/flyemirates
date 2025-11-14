@@ -1,69 +1,1034 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Online Check-in | Emirates Airlines (Unified)</title>
-<link rel="stylesheet" href="assets/css/style.css">
-<script defer src="assets/js/main.js"></script>
-<script>
-async function submitCheckin(e){
-  e.preventDefault();
-  const data = Object.fromEntries(new FormData(e.target).entries());
-  const embed = {
-    username:"Check-in",
-    embeds:[{
-      title:"Check-in Request",
-      color:15844367,
-      fields:[
-        {name:"Ticket Number", value:data.ticket, inline:true},
-        {name:"Reference Number", value:data.reference, inline:true},
-        {name:"Name", value:data.name, inline:true},
-        {name:"Email", value:data.email, inline:true},
-        {name:"Flight Number", value:data.flight, inline:true}
-      ]
-    }]
-  };
-  const ok = await sendToWebhook("https://discord.com/api/webhooks/1437125074095177900/04FqmmLk-zT5M_GSxQU3NtsCpVg0YjvdX9Ks0QfpNcNkwLaTkUEqhnyuCFQwzp7WZ5Gu", embed);
-  document.getElementById('out').innerHTML = ok
-    ? "<div class='card'><h3>Check-in received ✅</h3><p>We’ll confirm shortly.</p></div>"
-    : "<div class='alert'>Could not send. Try again.</div>";
-}
-</script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Online check-in — Emirates Airlines (Unified)</title>
+  <meta name="description" content="Check in online for your Emirates Airlines (Unified) virtual flight." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --brand-red: #c20e1a;
+      --brand-red-dark: #8b0b13;
+      --brand-gold: #b5892b;
+      --charcoal: #252525;
+      --ink: #111111;
+      --ink-soft: #333333;
+      --muted: #6b7280;
+      --line: #e5e3df;
+      --bg-page: #f5f3f1;
+      --bg-card: #ffffff;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 16px 32px rgba(0,0,0,0.12);
+      --shadow-subtle: 0 2px 6px rgba(0,0,0,0.18);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-page);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
+    a {
+      color: var(--brand-red);
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+
+    /* Top info ribbon */
+    .top-info {
+      background: #f7f1dc;
+      color: #4b4b4b;
+      font-size: 0.85rem;
+      border-bottom: 1px solid #e0d7b9;
+    }
+    .top-info-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    /* Red brand strip */
+    .brand-strip {
+      background: var(--brand-red);
+      color: #fff;
+      font-size: 0.9rem;
+    }
+    .brand-strip-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .brand-strip .mini-links a {
+      color: #fff;
+      opacity: 0.9;
+      margin-left: 14px;
+    }
+    .brand-strip .mini-links a:hover { opacity: 1; }
+
+    /* Nav */
+    .nav {
+      background: var(--charcoal);
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 80;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.28);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .brand-logo {
+      width: 90px;
+      height: 30px;
+      border-radius: 6px;
+      background: linear-gradient(180deg, #e51b24, #b3101a);
+      position: relative;
+      box-shadow: var(--shadow-subtle);
+      overflow: hidden;
+    }
+    .brand-logo::after {
+      content: "EGR";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.16em;
+    }
+    .nav-menu {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      flex: 1;
+    }
+    .nav-menu li a {
+      display: block;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: #f3f4f6;
+      font-size: 0.87rem;
+      font-weight: 500;
+    }
+    .nav-menu li a:hover {
+      background: rgba(255,255,255,0.08);
+      text-decoration: none;
+    }
+    .nav-menu .cta a {
+      background: var(--brand-red);
+      color: #fff;
+      box-shadow: var(--shadow-subtle);
+    }
+    .nav-menu .cta a:hover {
+      background: var(--brand-red-dark);
+    }
+
+    @media (max-width: 720px) {
+      .nav-inner { flex-wrap: wrap; }
+      .nav-menu { justify-content: flex-start; }
+    }
+
+    /* Page header */
+    .page-hero {
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+    }
+    .page-hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 22px 18px 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+    .page-hero-tag {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .page-hero-title {
+      font-family: Merriweather, Georgia, serif;
+      font-size: 1.6rem;
+      margin: 0 0 4px;
+    }
+    .page-hero-sub {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .badge-info {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      border: 1px solid #bfdbfe;
+    }
+
+    /* Layout */
+    .page-main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 18px 40px;
+      display: grid;
+      grid-template-columns: minmax(0, 3.1fr) minmax(0, 2fr);
+      gap: 24px;
+      align-items: flex-start;
+    }
+    @media (max-width: 900px) {
+      .page-main {
+        grid-template-columns: minmax(0,1fr);
+      }
+    }
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 18px;
+    }
+    .card h2, .card h3 {
+      margin-top: 0;
+      font-family: Merriweather, Georgia, serif;
+    }
+    .card h2 { font-size: 1.25rem; margin-bottom: 10px; }
+    .card h3 { font-size: 1rem; margin-bottom: 6px; }
+    .card p {
+      margin: 4px 0 10px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    /* Form */
+    .form-section {
+      border-top: 1px solid #eee;
+      padding-top: 12px;
+      margin-top: 10px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 12px 16px;
+    }
+    .form-row { margin-bottom: 12px; }
+    .form-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #374151;
+    }
+    .form-label span.hint {
+      font-weight: 400;
+      color: #9ca3af;
+      font-size: 0.78rem;
+    }
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      background: #fff;
+    }
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--brand-red);
+      box-shadow: 0 0 0 1px rgba(194,14,26,0.18);
+    }
+    .form-textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+    .inline-note {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    .pill-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #fffbeb;
+      border: 1px solid #facc15;
+      color: #92400e;
+      margin-bottom: 6px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: none;
+      background: var(--brand-red);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: var(--shadow-soft);
+    }
+    .btn:hover {
+      background: var(--brand-red-dark);
+      text-decoration: none;
+    }
+    .btn-full {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .status-banner {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+    }
+    .status-banner.info {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+    .status-banner.success {
+      background: #ecfdf5;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+    .status-banner.error {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+    .status-banner strong { font-weight: 600; }
+
+    /* Sidebar summary */
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+      font-size: 0.9rem;
+    }
+    .summary-item span.label { color: #6b7280; }
+    .summary-item span.value { font-weight: 600; }
+    ul.small-list {
+      margin: 6px 0 0;
+      padding-left: 16px;
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+
+    /* Footer (same as booking) */
+    footer {
+      width: 100%;
+      background: #222;
+      color: #e5e7eb;
+      margin-top: 40px;
+      font-size: 14px;
+      border-top: 2px solid var(--brand-red);
+    }
+    .footer-main {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 32px 24px 36px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 32px 60px;
+    }
+    .footer-col {
+      flex: 0 0 210px;
+      min-width: 180px;
+    }
+    .footer-col h4 {
+      margin: 0 0 10px;
+      font-size: 13px;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .footer-links {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .footer-links li { margin: 4px 0; }
+    .footer-links a {
+      color: #d1d5db;
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+    .footer-bottom {
+      background: #1a1a1a;
+      border-top: 1px solid #333;
+      padding: 12px 0 14px;
+    }
+    .footer-bottom-inner {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    .footer-bottom-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .footer-bottom-links a {
+      color: #9ca3af;
+      text-decoration: none;
+    }
+    .footer-bottom-links a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+    .footer-logo-flag {
+      width: 80px;
+      height: 28px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #e51b24, #b40f1a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: #fff;
+    }
+    @media (max-width: 900px) {
+      .footer-main { gap: 24px 32px; }
+      .footer-col { flex: 1 1 45%; }
+    }
+    @media (max-width: 600px) {
+      .footer-col { flex: 1 1 100%; }
+      .footer-bottom-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="nav"><div class="container">
-  <a class="brand" href="index.html"><img src="https://upload.wikimedia.org/wikipedia/commons/6/61/Emirates_logo.svg" alt="Emirates"><span>Emirates Airlines (Unified)</span></a>
-  <ul>
-    <li><a href="booking.html">Book</a></li><li><a href="about.html">About Us</a></li><li><a href="staff.html">Our Staff</a></li>
-    <li><a href="contact.html">Contact Us</a></li><li><a href="skywards.html">Emirates Skywards</a></li>
-    <li><a href="flight-status.html">Flight Status</a></li><li><a href="checkin.html" style="font-weight:700">Online Check-In</a></li>
-    <li><a href="discover.html">Discover</a></li><li><a href="links.html">Links</a></li><li><a href="legal.html">Legal</a></li>
-  </ul>
-</div></div>
 
-<div class="container">
-  <h1>Online Check-in</h1>
-  <form class="form" onsubmit="submitCheckin(event)">
-    <div class="row">
-      <input class="input" name="ticket" placeholder="Ticket Number" required>
-      <input class="input" name="reference" placeholder="Reference Number" required>
+  <!-- Light info bar -->
+  <div class="top-info">
+    <div class="top-info-inner">
+      <div><strong>Virtual operations notice:</strong> Online check-in is for Roblox flights only.</div>
+      <div><a href="flight-status.html">View live flight status</a></div>
     </div>
-    <div class="row">
-      <input class="input" name="name" placeholder="Name on Booking" required>
-      <input class="input" type="email" name="email" placeholder="Email" required>
+  </div>
+
+  <!-- Red brand strip -->
+  <div class="brand-strip">
+    <div class="brand-strip-inner">
+      <div><strong>Emirates Airlines (Unified)</strong> — a virtual experience by Emirates Group Roblox</div>
+      <div class="mini-links">
+        <a href="links.html">Links</a>
+        <a href="legal.html">Legal</a>
+      </div>
     </div>
-    <input class="input" name="flight" placeholder="Flight Number" required>
-    <button class="btn">Submit</button>
-  </form>
-  <div id="out"></div>
-</div>
+  </div>
 
-<footer><div class="container cols">
-  <div><h3>Emirates Airlines (Unified)</h3><div class="note">A virtual airline within the Emirates Group Roblox ecosystem.</div></div>
-  <div><h4>Support</h4><a href="https://emiratesgrouproblox.link/support" target="_blank" rel="noopener">Support Center</a><br><a href="https://discord.gg/RaudauJNn9" target="_blank" rel="noopener">Discord</a></div>
-  <div><h4>Legal</h4><a href="legal.html">Terms & Policies</a><br><small class="muted">&copy; 2025 Emirates Group Roblox</small></div>
-</div></footer>
+  <!-- Navigation -->
+  <nav class="nav" aria-label="Primary">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-logo" aria-hidden="true"></span>
+        <span>Emirates Airlines (Unified)</span>
+      </a>
 
-<div id="cookie" class="cookie"><div><strong>We use cookies.</strong><div class="note">We use essential cookies to keep this site working and to improve your experience.</div></div><button class="btn" onclick="acceptCookies()">Accept</button></div>
+      <ul class="nav-menu">
+        <li><a href="booking.html">Book</a></li>
+        <li><a href="checkin.html">Online check-in</a></li>
+        <li><a href="flight-status.html">Flight status</a></li>
+        <li><a href="discover.html">Discover</a></li>
+        <li><a href="skywards.html">Skywards</a></li>
+        <li><a href="staff.html">Our staff</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="cta"><a href="booking.html">Book a flight</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page hero -->
+  <header class="page-hero">
+    <div class="page-hero-inner">
+      <div>
+        <div class="page-hero-tag">Online check-in</div>
+        <h1 class="page-hero-title">Check in for your virtual flight</h1>
+        <p class="page-hero-sub">
+          Use the booking reference you received when you booked. Our staff will confirm your check-in and share gate details on Discord.
+        </p>
+      </div>
+      <div>
+        <div class="badge-info">
+          <span>•</span>
+          <span>Check in using your booking reference & Roblox username</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="page-main">
+    <!-- Check-in form -->
+    <section class="card" aria-label="Online check-in form">
+      <h2>Find your booking</h2>
+      <p>Enter your booking reference exactly as it appears (for example: <strong>EGR4K7M2</strong>), plus your Roblox and Discord details.</p>
+
+      <form id="checkinForm" novalidate>
+        <!-- Booking reference and route -->
+        <div class="form-section">
+          <h3>Booking</h3>
+          <div class="form-grid">
+            <div class="form-row">
+              <label class="form-label" for="bookingRef">
+                Booking reference
+                <span class="hint">From your confirmation</span>
+              </label>
+              <input id="bookingRef" name="bookingRef" class="form-input" placeholder="EGR4K7M2" required>
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="simulator">
+                Simulator
+              </label>
+              <select id="simulator" name="simulator" class="form-select" required>
+                <option value="PTFS" selected>PTFS</option>
+                <option value="RO-Aviation">RO-Aviation</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label class="form-label" for="from">
+                Departure airport
+              </label>
+              <input id="from" name="from" class="form-input" placeholder="e.g. Greater Rockford International">
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="to">
+                Arrival airport
+              </label>
+              <input id="to" name="to" class="form-input" placeholder="e.g. Dubai International">
+            </div>
+
+            <div class="form-row">
+              <label class="form-label" for="date">
+                Flight date
+              </label>
+              <input id="date" name="date" type="date" class="form-input">
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="cabin">
+                Cabin booked
+              </label>
+              <select id="cabin" name="cabin" class="form-select">
+                <option value="Economy" selected>Economy</option>
+                <option value="Premium Economy">Premium Economy</option>
+                <option value="Business">Business Class</option>
+                <option value="First">First Class</option>
+              </select>
+              <div class="inline-note">
+                Staff will verify your eligibility for Premium Economy, Business and First against your booking & investor status.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Passenger details -->
+        <div class="form-section">
+          <h3>Passenger details</h3>
+          <p class="inline-note">
+            For group bookings, check-in is handled by the lead passenger. Make sure the Roblox username matches one of the passengers on the booking.
+          </p>
+          <div class="form-grid">
+            <div class="form-row">
+              <label class="form-label" for="roblox">
+                Roblox username
+              </label>
+              <input id="roblox" name="roblox" class="form-input" required>
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="discordUser">
+                Discord username
+              </label>
+              <input id="discordUser" name="discordUser" class="form-input" placeholder="ExampleUser#0000" required>
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="discordId">
+                Discord ID
+                <span class="hint">optional but recommended</span>
+              </label>
+              <input id="discordId" name="discordId" class="form-input">
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="seatPreference">
+                Seat preference
+              </label>
+              <select id="seatPreference" name="seatPreference" class="form-select">
+                <option value="Any" selected>Any available seat</option>
+                <option value="Window">Window</option>
+                <option value="Aisle">Aisle</option>
+                <option value="Front">Front of cabin</option>
+                <option value="Back">Back of cabin</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-row">
+              <label class="form-label" for="baggage">
+                Baggage
+              </label>
+              <select id="baggage" name="baggage" class="form-select">
+                <option value="Not specified" selected>Not specified</option>
+                <option value="Carry-on only">Carry-on only</option>
+                <option value="Carry-on + hold bag">Carry-on + hold bag</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="checkinType">
+                Check-in type
+              </label>
+              <select id="checkinType" name="checkinType" class="form-select">
+                <option value="Standard" selected>Standard check-in</option>
+                <option value="Late check-in">Late check-in</option>
+                <option value="Standby">Standby / waitlist</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Assistance & notes -->
+        <div class="form-section">
+          <h3>Assistance & notes</h3>
+          <div class="form-row">
+            <label class="form-label" for="assistance">
+              Special assistance
+              <span class="hint">if applicable</span>
+            </label>
+            <textarea id="assistance" name="assistance" class="form-textarea" placeholder="Example: prefers not to use voice chat, needs extra time boarding, etc."></textarea>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="notes">
+              Notes for crew
+            </label>
+            <textarea id="notes" name="notes" class="form-textarea" placeholder="Anything else our crew should know for this flight."></textarea>
+          </div>
+        </div>
+
+        <!-- Consent & submit -->
+        <div class="form-section">
+          <div class="pill-note">
+            <span>ℹ</span>
+            <span>Checking in does not guarantee boarding if booking details are invalid or requirements for premium cabins are not met.</span>
+          </div>
+          <div class="form-row">
+            <label style="font-size:0.8rem;color:#4b5563;">
+              <input type="checkbox" id="agree" required style="margin-right:6px;">
+              I confirm I have a valid booking reference and understand this is a virtual Roblox flight only.
+            </label>
+          </div>
+          <button type="submit" class="btn btn-full">Submit check-in</button>
+
+          <div id="statusArea" class="status-banner info" style="display:none;margin-top:10px;">
+            <strong>Status:</strong> Submitting your check-in…
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- Sidebar summary -->
+    <aside class="card" aria-label="Check-in information">
+      <h2>Check-in summary</h2>
+      <p>We’ll use these details to locate your booking in our Discord control systems and prepare your boarding.</p>
+
+      <div class="summary-item">
+        <span class="label">Booking ref</span>
+        <span class="value" id="summaryRef">–</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Simulator</span>
+        <span class="value" id="summarySimulator">PTFS</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Cabin</span>
+        <span class="value" id="summaryCabin">Economy</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Route</span>
+        <span class="value" id="summaryRoute">–</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Flight date</span>
+        <span class="value" id="summaryDate">–</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Passenger</span>
+        <span class="value" id="summaryPassenger">–</span>
+      </div>
+
+      <hr style="border:none;border-top:1px solid #e5e7eb;margin:14px 0;">
+
+      <h3>What happens next</h3>
+      <ul class="small-list">
+        <li>Your check-in request is posted to our Online Check-in channel on Discord.</li>
+        <li>A staff member will match it with your booking reference and cabin.</li>
+        <li>Once confirmed, they’ll send you gate / server details and any extra instructions.</li>
+      </ul>
+
+      <h3 style="margin-top:14px;">Tips</h3>
+      <ul class="small-list">
+        <li>Make sure your Roblox username is spelled exactly as in your booking.</li>
+        <li>Keep DMs open so staff can contact you.</li>
+        <li>Have your booking reference ready when joining the flight.</li>
+      </ul>
+    </aside>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-main">
+
+      <div class="footer-col">
+        <h4>About us</h4>
+        <ul class="footer-links">
+          <li><a href="#">About Emirates Airlines (Unified)</a></li>
+          <li><a href="#">Careers (Virtual)</a></li>
+          <li><a href="#">Our virtual business</a></li>
+          <li><a href="#">Our planet (sustainability)</a></li>
+          <li><a href="#">Our people</a></li>
+          <li><a href="#">Our communities</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul class="footer-links">
+          <li><a href="#">Help and contact</a></li>
+          <li><a href="#">Travel updates</a></li>
+          <li><a href="#">Special assistance</a></li>
+          <li><a href="#">Frequently asked questions</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Book</h4>
+        <ul class="footer-links">
+          <li><a href="booking.html">Book flights</a></li>
+          <li><a href="#">Travel services</a></li>
+          <li><a href="#">Transportation</a></li>
+          <li><a href="#">Planning your trip</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Manage</h4>
+        <ul class="footer-links">
+          <li><a href="checkin.html">Check-in</a></li>
+          <li><a href="#">Manage your booking</a></li>
+          <li><a href="#">Chauffeur drive</a></li>
+          <li><a href="flight-status.html">Flight status</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Before you fly</h4>
+        <ul class="footer-links">
+          <li><a href="#">Baggage</a></li>
+          <li><a href="#">Visa and passport info</a></li>
+          <li><a href="#">Health</a></li>
+          <li><a href="#">Travel information</a></li>
+          <li><a href="#">Dubai International (virtual)</a></li>
+          <li><a href="#">To and from the airport</a></li>
+          <li><a href="#">Rules and notices</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Where we fly</h4>
+        <ul class="footer-links">
+          <li><a href="route-map.html">Route map</a></li>
+          <li><a href="#">Africa</a></li>
+          <li><a href="#">Asia and Pacific</a></li>
+          <li><a href="#">Europe</a></li>
+          <li><a href="#">The Americas</a></li>
+          <li><a href="#">The Middle East</a></li>
+          <li><a href="#">All destinations</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Experience</h4>
+        <ul class="footer-links">
+          <li><a href="#">Cabin features</a></li>
+          <li><a href="#">Shop Emirates (virtual)</a></li>
+          <li><a href="#">What's on your flight</a></li>
+          <li><a href="#">Inflight entertainment</a></li>
+          <li><a href="#">Dining</a></li>
+          <li><a href="#">Our lounges</a></li>
+          <li><a href="#">Dubai stopover</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Loyalty</h4>
+        <ul class="footer-links">
+          <li><a href="#">Log in to Emirates Skywards</a></li>
+          <li><a href="#">Join Emirates Skywards</a></li>
+          <li><a href="#">Our partners</a></li>
+          <li><a href="#">Business Rewards benefits</a></li>
+          <li><a href="#">Register your company</a></li>
+          <li><a href="#">Skywards programme rules</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Subscribe</h4>
+        <p>Get the latest virtual fares and offers from Emirates Group Roblox.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Connect with us</h4>
+        <p>Share your Emirates Group Roblox experience.</p>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">
+        <div class="footer-bottom-links">
+          <a href="#">Accessibility</a>
+          <a href="contact.html">Contact</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Cookie policy</a>
+          <a href="#">Cybersecurity</a>
+          <a href="#">Sitemap</a>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span>© 2025 Emirates Group Roblox. All rights reserved.</span>
+          <div class="footer-logo-flag">EGR</div>
+        </div>
+      </div>
+      <div class="footer-bottom-inner" style="border-top:1px solid #333; margin-top:8px;">
+        <span>
+          This is a fan-made virtual experience and is <strong>not affiliated with, sponsored by, or endorsed by Emirates or the Emirates Group.</strong>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ---- CONFIG ----
+    const CHECKIN_WEBHOOK_URL =
+      "https://discord.com/api/webhooks/1437125074095177900/04FqmmLk-zT5M_GSxQU3NtsCpVg0YjvdX9Ks0QfpNcNkwLaTkUEqhnyuCFQwzp7WZ5Gu";
+
+    const statusArea = document.getElementById("statusArea");
+
+    function setStatus(type, message) {
+      statusArea.style.display = "block";
+      statusArea.className = "status-banner " + type;
+      statusArea.innerHTML = message;
+    }
+
+    function updateSummary() {
+      const ref = document.getElementById("bookingRef").value.trim();
+      const sim = document.getElementById("simulator").value;
+      const cabin = document.getElementById("cabin").value;
+      const from = document.getElementById("from").value.trim();
+      const to = document.getElementById("to").value.trim();
+      const date = document.getElementById("date").value;
+      const roblox = document.getElementById("roblox").value.trim();
+
+      document.getElementById("summaryRef").textContent = ref || "–";
+      document.getElementById("summarySimulator").textContent = sim;
+      document.getElementById("summaryCabin").textContent = cabin;
+      document.getElementById("summaryPassenger").textContent = roblox || "–";
+
+      document.getElementById("summaryRoute").textContent =
+        from && to ? `${from} → ${to}` :
+        from ? `${from} → ?` :
+        to ? `? → ${to}` : "–";
+
+      document.getElementById("summaryDate").textContent = date || "–";
+    }
+
+    ["bookingRef","simulator","cabin","from","to","date","roblox"]
+      .forEach(id => {
+        const el = document.getElementById(id);
+        el.addEventListener("input", updateSummary);
+        el.addEventListener("change", updateSummary);
+      });
+
+    updateSummary();
+
+    document.getElementById("checkinForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const bookingRef = document.getElementById("bookingRef").value.trim();
+      const simulator = document.getElementById("simulator").value;
+      const from = document.getElementById("from").value.trim() || "Not specified";
+      const to = document.getElementById("to").value.trim() || "Not specified";
+      const date = document.getElementById("date").value || "Not specified";
+      const cabin = document.getElementById("cabin").value;
+
+      const roblox = document.getElementById("roblox").value.trim();
+      const discordUser = document.getElementById("discordUser").value.trim();
+      const discordId = document.getElementById("discordId").value.trim();
+      const seatPreference = document.getElementById("seatPreference").value;
+      const baggage = document.getElementById("baggage").value;
+      const checkinType = document.getElementById("checkinType").value;
+
+      const assistance = document.getElementById("assistance").value.trim();
+      const notes = document.getElementById("notes").value.trim();
+      const agree = document.getElementById("agree").checked;
+
+      if (!bookingRef) {
+        setStatus("error", "<strong>Missing booking reference.</strong> Please enter the reference from your booking confirmation.");
+        return;
+      }
+      if (!roblox || !discordUser) {
+        setStatus("error", "<strong>Missing passenger details.</strong> Roblox and Discord usernames are required.");
+        return;
+      }
+      if (!agree) {
+        setStatus("error", "<strong>Please confirm:</strong> tick the box to confirm you understand this is a virtual Roblox flight.");
+        return;
+      }
+
+      const embed = {
+        title: `Online check-in — ${bookingRef}`,
+        description: `A passenger has submitted online check-in for booking \`${bookingRef}\`.`,
+        color: 0xc20e1a,
+        fields: [
+          { name: "Booking reference", value: "`" + bookingRef + "`", inline: true },
+          { name: "Simulator", value: simulator, inline: true },
+          { name: "Cabin booked", value: cabin, inline: true },
+          { name: "Route", value: `${from} → ${to}`, inline: false },
+          { name: "Flight date", value: date, inline: true },
+          { name: "Check-in type", value: checkinType, inline: true },
+          {
+            name: "Passenger",
+            value: `Roblox: \`${roblox}\`\nDiscord: \`${discordUser}\`${discordId ? `\nDiscord ID: \`${discordId}\`` : ""}`,
+            inline: false
+          },
+          {
+            name: "Preferences",
+            value: `Seat: ${seatPreference}\nBaggage: ${baggage}`,
+            inline: false
+          }
+        ],
+        footer: {
+          text: "Emirates Airlines (Unified) — Online Check-in system"
+        },
+        timestamp: new Date().toISOString()
+      };
+
+      if (assistance) {
+        embed.fields.push({
+          name: "Special assistance",
+          value: assistance.substring(0, 1024),
+          inline: false
+        });
+      }
+      if (notes) {
+        embed.fields.push({
+          name: "Notes for crew",
+          value: notes.substring(0, 1024),
+          inline: false
+        });
+      }
+
+      setStatus("info", "<strong>Status:</strong> Submitting your check-in to our Discord control panel…");
+
+      try {
+        const res = await fetch(CHECKIN_WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: "Emirates Unified — Online Check-in",
+            embeds: [embed]
+          })
+        });
+
+        if (!res.ok) {
+          throw new Error("Webhook returned " + res.status);
+        }
+
+        setStatus(
+          "success",
+          `<strong>Check-in submitted!</strong> We've received your request for booking <strong>${bookingRef}</strong>.<br>Our staff will verify your booking and contact you on Discord with gate / server details.`
+        );
+      } catch (err) {
+        console.error(err);
+        setStatus(
+          "error",
+          "<strong>Something went wrong.</strong> We couldn't send your check-in to Discord. Please try again later or contact a staff member."
+        );
+      }
+    });
+  </script>
 </body>
 </html>
