@@ -1,515 +1,841 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Emirates Airlines (Unified) – Emirates Group Roblox</title>
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Emirates Airlines (Unified) — Fly Better</title>
+  <meta name="description" content="The virtual Emirates Airlines experience operated by Emirates Group Roblox across PTFS and RO-Aviation." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+
   <style>
     :root {
+      /* Emirates-style palette */
       --brand-red: #c20e1a;
-      --brand-red-dark: #8f0b13;
-      --bg-light: #f5f5f5;
-      --card-bg: #ffffff;
-      --text-main: #222222;
-      --text-muted: #666666;
-      --border-radius: 16px;
-      --shadow-soft: 0 14px 28px rgba(0, 0, 0, 0.12);
+      --brand-red-dark: #8b0b13;
+      --brand-gold: #b5892b;
+      --charcoal: #252525;
+      --ink: #111111;
+      --ink-soft: #333333;
+      --muted: #6b7280;
+      --line: #e3e3e3;
+      --bg-page: #f5f3f1;
+      --bg-card: #ffffff;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 16px 32px rgba(0,0,0,0.12);
+      --shadow-subtle: 0 2px 6px rgba(0,0,0,0.18);
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
+    * { box-sizing: border-box; }
+    html, body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg-light);
-      color: var(--text-main);
+      padding: 0;
+      background: var(--bg-page);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    /* Top bar / nav */
-
-    header {
-      background: linear-gradient(90deg, var(--brand-red) 0%, var(--brand-red-dark) 100%);
-      color: #fff;
-      padding: 12px 0;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.3);
-      position: sticky;
-      top: 0;
-      z-index: 50;
+    a {
+      color: var(--brand-red);
+      text-decoration: none;
     }
+    a:hover { text-decoration: underline; }
 
-    .nav-inner {
-      max-width: 1100px;
+    /* Top info ribbon (light cream like Emirates alerts) */
+    .top-info {
+      background: #f7f1dc;
+      color: #4b4b4b;
+      font-size: 0.85rem;
+      border-bottom: 1px solid #e0d7b9;
+    }
+    .top-info-inner {
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 0 16px;
+      padding: 6px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 10px;
+    }
+    .top-info strong { font-weight: 600; }
+    .top-info a {
+      color: #b0361f;
+      font-weight: 500;
+    }
+
+    /* Red brand strip */
+    .brand-strip {
+      background: var(--brand-red);
+      color: #fff;
+      font-size: 0.9rem;
+    }
+    .brand-strip-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .brand-strip .mini-links a {
+      color: #fff;
+      opacity: 0.9;
+      margin-left: 14px;
+    }
+    .brand-strip .mini-links a:hover { opacity: 1; }
+
+    /* Main nav (dark bar like Emirates) */
+    .nav {
+      background: var(--charcoal);
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 80;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.28);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
     }
-
     .brand-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: rgba(255,255,255,0.15);
+      width: 90px;
+      height: 30px;
+      border-radius: 6px;
+      background: linear-gradient(180deg, #e51b24, #b3101a);
+      position: relative;
+      box-shadow: var(--shadow-subtle);
+      overflow: hidden;
+    }
+    .brand-logo::after {
+      content: "EGR";
+      position: absolute;
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
-      font-size: 18px;
-    }
-
-    .brand-text-main {
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      font-size: 18px;
-    }
-
-    .brand-text-sub {
-      font-size: 12px;
-      opacity: 0.9;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 16px;
-      font-size: 14px;
-    }
-
-    .nav-links a {
       color: #fff;
-      text-decoration: none;
-      opacity: 0.85;
-      padding-bottom: 2px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.16em;
     }
 
-    .nav-links a:hover {
-      opacity: 1;
-      border-bottom: 2px solid rgba(255,255,255,0.85);
-    }
-
-    /* Hero */
-
-    .hero {
-      max-width: 1100px;
-      margin: 24px auto 0;
-      padding: 0 16px 24px;
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
-      gap: 24px;
-    }
-
-    .hero-text h1 {
-      font-size: clamp(26px, 3vw, 32px);
-      margin-bottom: 8px;
-    }
-
-    .hero-text p {
+    .nav-menu {
       margin: 0;
-      color: var(--text-muted);
-      font-size: 14px;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      flex: 1;
+    }
+    .nav-menu li a {
+      display: block;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: #f3f4f6;
+      font-size: 0.87rem;
+      font-weight: 500;
+    }
+    .nav-menu li a:hover {
+      background: rgba(255,255,255,0.08);
+      text-decoration: none;
+    }
+    .nav-menu .cta a {
+      background: var(--brand-red);
+      color: #fff;
+      box-shadow: var(--shadow-subtle);
+    }
+    .nav-menu .cta a:hover {
+      background: var(--brand-red-dark);
     }
 
-    .hero-badge {
+    /* Hero (slider + overlaid booking strip) */
+    .hero {
+      position: relative;
+      height: 62vh;
+      min-height: 420px;
+      max-height: 640px;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+      background: #000;
+    }
+    .slides {
+      position: absolute;
+      inset: 0;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    .slide.active { opacity: 1; }
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .veil {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,0.55),
+        rgba(0,0,0,0.2) 32%,
+        rgba(0,0,0,0.75)
+      );
+      pointer-events: none;
+    }
+
+    .hero-copy {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 120px;
+      max-width: 980px;
+      padding: 0 18px;
+      color: #fff;
+    }
+    .eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: #fff;
+      gap: 10px;
       padding: 6px 12px;
       border-radius: 999px;
-      font-size: 12px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 0.82rem;
       margin-bottom: 10px;
+      backdrop-filter: blur(2px);
     }
-
-    .hero-badge-dot {
+    .eyebrow-dot {
       width: 8px;
       height: 8px;
       border-radius: 999px;
-      background: #10b981;
+      background: #22c55e;
     }
-
-    .hero-card {
-      background: linear-gradient(135deg, var(--brand-red) 0%, var(--brand-red-dark) 100%);
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: var(--shadow-soft);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 160px;
-    }
-
-    .hero-card h2 {
+    .hero h1 {
       margin: 0 0 6px;
-      font-size: 18px;
+      font-family: Merriweather, Georgia, serif;
+      font-size: clamp(26px, 3.8vw, 40px);
+      line-height: 1.2;
+    }
+    .hero p {
+      margin: 0 0 14px;
+      font-size: clamp(14px, 1.6vw, 18px);
+      max-width: 640px;
     }
 
-    .hero-card p {
-      margin: 0;
-      font-size: 13px;
-      opacity: 0.9;
-    }
-
-    .hero-card-footer {
-      margin-top: 14px;
-      font-size: 12px;
-      opacity: 0.9;
-    }
-
-    /* Forms / main cards */
-
-    .main-panels {
-      max-width: 1100px;
-      margin: 0 auto 32px;
-      padding: 0 16px 24px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .panel {
-      background: var(--card-bg);
-      border-radius: var(--border-radius);
-      padding: 18px;
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: none;
+      background: var(--brand-red);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
       box-shadow: var(--shadow-soft);
+    }
+    .btn:hover {
+      background: var(--brand-red-dark);
+      text-decoration: none;
+    }
+    .btn.alt {
+      background: #ffffff;
+      color: var(--ink);
+      box-shadow: var(--shadow-subtle);
+    }
+    .btn.alt:hover {
+      background: #f3f4f6;
+    }
+
+    .hero-buttons {
       display: flex;
-      flex-direction: column;
+      flex-wrap: wrap;
       gap: 10px;
     }
 
-    .panel-header {
+    .dots {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 22px;
       display: flex;
-      justify-content: space-between;
-      align-items: baseline;
       gap: 6px;
     }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+    }
+    .dot.active {
+      background: #ffffff;
+    }
 
-    .panel-title {
+    /* Booking strip under hero (Emirates-style tabs) */
+    .booking-strip-wrapper {
+      max-width: 980px;
+      margin: -56px auto 28px;
+      padding: 0 18px;
+      position: relative;
+      z-index: 40;
+    }
+    .booking-strip {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .booking-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--line);
+      background: #fafafa;
+    }
+    .booking-tab {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 10px;
+      font-size: 0.9rem;
       font-weight: 600;
-      font-size: 15px;
+      color: var(--ink-soft);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .booking-tab span.icon {
+      font-size: 1rem;
+    }
+    .booking-tab.active {
+      border-bottom-color: var(--brand-red);
+      background: #ffffff;
+      color: var(--brand-red);
     }
 
-    .panel-subtitle {
-      font-size: 11px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
+    .booking-body {
+      padding: 14px 16px 16px;
+      display: grid;
+      grid-template-columns: minmax(0, 4fr) minmax(0, 4fr) minmax(0, 3fr);
+      gap: 10px;
+      align-items: center;
     }
-
-    .field-group {
+    .booking-field {
       display: flex;
       flex-direction: column;
       gap: 4px;
-      margin-bottom: 6px;
+      font-size: 0.8rem;
     }
-
-    label {
-      font-size: 12px;
-      color: var(--text-muted);
+    .booking-label {
+      color: #6b7280;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
     }
-
-    input, select, textarea {
+    .booking-input {
       border-radius: 999px;
-      border: 1px solid #ddd;
-      padding: 6px 10px;
-      font-size: 13px;
-      outline: none;
-      transition: border 0.15s ease, box-shadow 0.15s ease;
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      font-size: 0.9rem;
       font-family: inherit;
+      outline: none;
     }
-
-    textarea {
-      border-radius: 10px;
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    input:focus, select:focus, textarea:focus {
+    .booking-input:focus {
       border-color: var(--brand-red);
-      box-shadow: 0 0 0 1px rgba(194, 14, 26, 0.3);
+      box-shadow: 0 0 0 1px rgba(194,14,26,0.3);
     }
-
-    .btn-primary {
-      background: linear-gradient(90deg, var(--brand-red) 0%, var(--brand-red-dark) 100%);
-      color: #fff;
-      border: none;
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 4px;
-      transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.12s ease;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.16);
+    .booking-cta {
+      display: flex;
+      justify-content: flex-end;
     }
-
-    .btn-primary:hover {
-      filter: brightness(1.03);
-      transform: translateY(-1px);
-    }
-
-    .btn-primary:active {
-      transform: translateY(0);
-      box-shadow: 0 5px 12px rgba(0,0,0,0.18);
-    }
-
-    .status-message {
-      font-size: 12px;
-      margin-top: 4px;
-      min-height: 16px;
-    }
-
-    .status-success {
-      color: #059669;
-    }
-
-    .status-error {
-      color: #b91c1c;
-    }
-
-    footer {
-      border-top: 1px solid #e5e5e5;
-      padding: 12px 16px 18px;
-      font-size: 11px;
-      color: var(--text-muted);
-      text-align: center;
-      background: #fafafa;
-    }
-
-    footer strong {
-      font-weight: 600;
+    .booking-cta .btn {
+      width: 100%;
+      max-width: 160px;
     }
 
     @media (max-width: 900px) {
       .hero {
-        grid-template-columns: minmax(0,1fr);
+        height: 56vh;
+        min-height: 360px;
       }
+      .hero-copy {
+        left: 6%;
+        right: 6%;
+        transform: none;
+        bottom: 130px;
+      }
+      .booking-body {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .booking-cta {
+        justify-content: flex-start;
+      }
+      .booking-cta .btn {
+        max-width: none;
+      }
+    }
 
-      .main-panels {
-        grid-template-columns: minmax(0,1fr);
+    @media (max-width: 720px) {
+      .nav-inner {
+        flex-wrap: wrap;
+      }
+      .nav-menu {
+        justify-content: flex-start;
+      }
+      .nav-menu li {
+        flex: 0 0 auto;
+      }
+    }
+
+    /* Main content cards */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 18px 28px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+    .col-4 { grid-column: span 4; }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 18px 18px 16px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
+    }
+    .card h3 {
+      margin: 4px 0 6px;
+      font-size: 1.05rem;
+    }
+    .card p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .card .btn {
+      box-shadow: var(--shadow-subtle);
+      padding-inline: 14px;
+    }
+    .muted { color: var(--muted); }
+
+    .list {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.9rem;
+    }
+    .list li { margin: 0.2rem 0; }
+
+    @media (max-width: 900px) {
+      .col-4 { grid-column: span 12; }
+    }
+
+    /* Footer – multi-column like Emirates */
+    footer {
+      background: #222;
+      color: #f3f4f6;
+      margin-top: 24px;
+      border-top: 2px solid var(--brand-red);
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 18px 22px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      font-size: 0.9rem;
+    }
+    footer h4 {
+      margin: 0 0 8px;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #f9fafb;
+    }
+    footer a {
+      color: #e5e7eb;
+    }
+    footer a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+    .footer-logo {
+      margin-top: 8px;
+      width: 70px;
+      height: 26px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #e51b24, #b3101a);
+      position: relative;
+      overflow: hidden;
+    }
+    .footer-logo::after {
+      content: "EGR";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 0.16em;
+    }
+    .footer-small {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px 18px 16px;
+      border-top: 1px solid #363636;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      text-align: center;
+    }
+
+    /* Cookie banner */
+    .cookie {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      background: #111;
+      color: #f9fafb;
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 100;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+      font-size: 0.9rem;
+    }
+    .cookie .muted { color: #d1d5db; }
+    .cookie .btn {
+      background: #f9fafb;
+      color: #111827;
+      box-shadow: none;
+    }
+    .cookie .btn:hover {
+      background: #e5e7eb;
+    }
+
+    @media (max-width: 640px) {
+      .cookie {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Hero -->
-<section class="hero" aria-label="Featured">
-  <div class="slides" aria-live="polite">
-    <!-- Replace src values with your 5 images -->
-    <figure class="slide active"><img src="assets/img/hero1.jpg" alt="Image 1"><div class="veil"></div></figure>
-    <figure class="slide"><img src="assets/img/hero2.jpg" alt="Image 2"><div class="veil"></div></figure>
-    <figure class="slide"><img src="assets/img/hero3.jpg" alt="Image 3"><div class="veil"></div></figure>
-    <figure class="slide"><img src="assets/img/hero4.jpg" alt="Image 4"><div class="veil"></div></figure>
-    <figure class="slide"><img src="assets/img/Emirates Roav Boeing 777 Cabin Business.png" alt="Image 5"><div class="veil"></div></figure>
-  </div>
 
-  <div class="hero-copy">
-    <span class="eyebrow">Fly better — PTFS / RO-Aviation</span>
-    <h1>Book. Check-in. Fly. A seamless virtual Emirates experience.</h1>
-    <p>Simple booking, instant references to our ops team, and Skywards-style recognition across the Emirates Group Roblox ecosystem.</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap">
-      <a class="btn" href="booking.html">Start booking</a>
-      <a class="btn alt" href="checkin.html">Online check-in</a>
+  <!-- Light info bar -->
+  <div class="top-info" role="status">
+    <div class="top-info-inner">
+      <div>
+        <strong>Virtual operations notice:</strong> All flights are for Roblox roleplay only and are not real-world journeys.
+      </div>
+      <div><a href="flight-status.html">View live flight status</a></div>
     </div>
   </div>
-</section>
-  
-         <p>
-          This site is for <strong>Emirates Group Roblox</strong> roleplay only and is
-          <strong>not affiliated with or endorsed by Emirates</strong> or the real Emirates Group.
-        </p>
+
+  <!-- Red brand strip -->
+  <div class="brand-strip">
+    <div class="brand-strip-inner">
+      <div><strong>Emirates Airlines (Unified)</strong> — a virtual experience by Emirates Group Roblox</div>
+      <div class="mini-links">
+        <a href="links.html">Links</a>
+        <a href="legal.html">Legal</a>
       </div>
-      <div class="hero-card">
-        <div>
-          <h2>FlyEmirates.EmiratesGroupRoblox.link</h2>
-          <p>Use your Roblox username and in-game details to create bookings, check in, and contact staff.</p>
+    </div>
+  </div>
+
+  <!-- Dark navigation bar -->
+  <nav class="nav" aria-label="Primary">
+    <div class="nav-inner">
+      <a class="brand" href="index.html" aria-label="Emirates Airlines (Unified) home">
+        <span class="brand-logo" aria-hidden="true"></span>
+        <span>Emirates Airlines (Unified)</span>
+      </a>
+
+      <ul class="nav-menu" role="menubar" aria-label="Main menu">
+        <li role="none"><a role="menuitem" href="booking.html">Book</a></li>
+        <li role="none"><a role="menuitem" href="checkin.html">Online check-in</a></li>
+        <li role="none"><a role="menuitem" href="flight-status.html">Flight status</a></li>
+        <li role="none"><a role="menuitem" href="discover.html">Discover</a></li>
+        <li role="none"><a role="menuitem" href="skywards.html">Skywards</a></li>
+        <li role="none"><a role="menuitem" href="staff.html">Our staff</a></li>
+        <li role="none"><a role="menuitem" href="about.html">About us</a></li>
+        <li role="none"><a role="menuitem" href="contact.html">Contact</a></li>
+        <li class="cta" role="none"><a role="menuitem" href="booking.html">Book a flight</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO: slider -->
+  <section class="hero" aria-label="Featured">
+    <div class="slides" aria-live="polite">
+      <!-- Your existing images -->
+      <figure class="slide active">
+        <img src="assets/img/hero1.jpg" alt="Image 1">
+        <div class="veil"></div>
+      </figure>
+      <figure class="slide">
+        <img src="assets/img/hero2.jpg" alt="Image 2">
+        <div class="veil"></div>
+      </figure>
+      <figure class="slide">
+        <img src="assets/img/hero3.jpg" alt="Image 3">
+        <div class="veil"></div>
+      </figure>
+      <figure class="slide">
+        <img src="assets/img/hero4.jpg" alt="Image 4">
+        <div class="veil"></div>
+      </figure>
+      <figure class="slide">
+        <img src="assets/img/Emirates Roav Boeing 777 Cabin Business.png" alt="Image 5">
+        <div class="veil"></div>
+      </figure>
+    </div>
+
+    <div class="hero-copy">
+      <span class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        Fly better — PTFS / RO-Aviation
+      </span>
+      <h1>Book. Check-in. Fly.<br>A seamless virtual Emirates experience.</h1>
+      <p>
+        Simple booking, instant references to our ops team, and Skywards-style recognition
+        across the Emirates Group Roblox ecosystem.
+      </p>
+      <div class="hero-buttons">
+        <a class="btn" href="booking.html">Start booking</a>
+        <a class="btn alt" href="checkin.html">Online check-in</a>
+      </div>
+    </div>
+
+    <div class="dots" aria-hidden="true">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </section>
+
+  <!-- Booking / manage strip under hero -->
+  <div class="booking-strip-wrapper" aria-label="Booking tools">
+    <div class="booking-strip">
+      <div class="booking-tabs" role="tablist">
+        <button class="booking-tab active" type="button" role="tab" aria-selected="true">
+          <span class="icon">✈️</span> Search flights
+        </button>
+        <button class="booking-tab" type="button" role="tab" aria-selected="false"
+          onclick="window.location.href='checkin.html'">
+          <span class="icon">📑</span> Manage booking / Check-in
+        </button>
+        <button class="booking-tab" type="button" role="tab" aria-selected="false"
+          onclick="window.location.href='flight-status.html'">
+          <span class="icon">📡</span> Flight status
+        </button>
+      </div>
+
+      <div class="booking-body">
+        <div class="booking-field">
+          <span class="booking-label">Departure airport</span>
+          <input class="booking-input" type="text" placeholder="Mahe (SEZ)" aria-label="Departure airport">
         </div>
-        <div class="hero-card-footer">
-          Tip: Share your booking reference with staff to speed up check-in and boarding.
+        <div class="booking-field">
+          <span class="booking-label">Arrival airport</span>
+          <input class="booking-input" type="text" placeholder="Dubai, London, etc." aria-label="Arrival airport">
+        </div>
+        <div class="booking-cta">
+          <!-- Takes user to your dedicated booking page -->
+          <a class="btn" href="booking.html">Continue</a>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- MAIN: quick actions + why fly with us -->
+  <main class="container">
+    <!-- Quick actions -->
+    <section class="grid" aria-label="Quick actions">
+      <article class="col-4 card">
+        <h3>Book a flight</h3>
+        <p>Submit your itinerary; our team receives it instantly via secure Discord integration.</p>
+        <a class="btn" href="booking.html">Book now</a>
+      </article>
+      <article class="col-4 card">
+        <h3>Flight status</h3>
+        <p>Track live operations on our Flight Dashboard in real time.</p>
+        <a class="btn" href="flight-status.html">Open dashboard</a>
+      </article>
+      <article class="col-4 card">
+        <h3>Emirates Skywards</h3>
+        <p>Earn miles through participation and investor tiers. Managed by our staff systems.</p>
+        <a class="btn" href="skywards.html">Learn more</a>
+      </article>
     </section>
 
-    <section class="main-panels">
-      <!-- BOOK A FLIGHT -->
-      <article class="panel" id="book">
-        <div class="panel-header">
-          <div class="panel-title">Book a flight</div>
-          <div class="panel-subtitle">New booking</div>
-        </div>
-        <form id="booking-form">
-          <div class="field-group">
-            <label for="booking-roblox-name">Roblox username</label>
-            <input id="booking-roblox-name" name="robloxUsername" required />
-          </div>
-
-          <div class="field-group">
-            <label for="booking-from">From (airport / hub)</label>
-            <input id="booking-from" name="from" placeholder="DXB, LHR, etc." required />
-          </div>
-
-          <div class="field-group">
-            <label for="booking-to">To (airport / hub)</label>
-            <input id="booking-to" name="to" required />
-          </div>
-
-          <div class="field-group">
-            <label for="booking-date">Flight date (in-game)</label>
-            <input type="date" id="booking-date" name="date" required />
-          </div>
-
-          <div class="field-group">
-            <label for="booking-class">Cabin</label>
-            <select id="booking-class" name="cabin" required>
-              <option value="Economy">Economy</option>
-              <option value="Business">Business</option>
-              <option value="First">First</option>
-              <option value="Crew / Staff">Crew / Staff</option>
-            </select>
-          </div>
-
-          <button class="btn-primary" type="submit">Send booking to staff</button>
-          <div class="status-message" id="booking-status"></div>
-        </form>
+    <!-- Why fly with us -->
+    <section class="grid" style="margin-top:16px" aria-label="Why fly with us">
+      <article class="col-4 card">
+        <h3>Cabins</h3>
+        <p class="muted">Economy, Business, and First Class experiences tailored to every journey.</p>
+        <ul class="list">
+          <li>Priority chauffeur for premium cabins</li>
+          <li>Streamlined pre-flight handling</li>
+          <li>On-board service standards</li>
+        </ul>
       </article>
-
-      <!-- ONLINE CHECK-IN -->
-      <article class="panel" id="checkin">
-        <div class="panel-header">
-          <div class="panel-title">Online check-in</div>
-          <div class="panel-subtitle">Manage booking</div>
-        </div>
-        <form id="checkin-form">
-          <div class="field-group">
-            <label for="checkin-roblox-name">Roblox username</label>
-            <input id="checkin-roblox-name" name="robloxUsername" required />
-          </div>
-
-          <div class="field-group">
-            <label for="checkin-reference">Booking reference</label>
-            <input id="checkin-reference" name="bookingRef" placeholder="EG-12345" required />
-          </div>
-
-          <div class="field-group">
-            <label for="checkin-seat">Seat preference</label>
-            <select id="checkin-seat" name="seatPreference" required>
-              <option value="Any available">Any available</option>
-              <option value="Window">Window</option>
-              <option value="Aisle">Aisle</option>
-              <option value="Front of aircraft">Front of aircraft</option>
-              <option value="Back of aircraft">Back of aircraft</option>
-            </select>
-          </div>
-
-          <div class="field-group">
-            <label for="checkin-notes">Notes for staff (optional)</label>
-            <textarea id="checkin-notes" name="notes" placeholder="Special role, group, or requests"></textarea>
-          </div>
-
-          <button class="btn-primary" type="submit">Check in</button>
-          <div class="status-message" id="checkin-status"></div>
-        </form>
+      <article class="col-4 card">
+        <h3>Network</h3>
+        <p class="muted">Hub-and-spoke operations across PTFS and RO-Aviation events and sectors.</p>
+        <ul class="list">
+          <li>Regular schedules & special fly-outs</li>
+          <li>Training & development flights</li>
+          <li>Community collaborations</li>
+        </ul>
       </article>
-
-      <!-- CONTACT US -->
-      <article class="panel" id="contact">
-        <div class="panel-header">
-          <div class="panel-title">Contact us</div>
-          <div class="panel-subtitle">Support</div>
-        </div>
-        <form id="contact-form">
-          <div class="field-group">
-            <label for="contact-roblox-name">Roblox username</label>
-            <input id="contact-roblox-name" name="robloxUsername" required />
-          </div>
-
-          <div class="field-group">
-            <label for="contact-topic">Topic</label>
-            <select id="contact-topic" name="topic" required>
-              <option value="General question">General question</option>
-              <option value="Booking support">Booking support</option>
-              <option value="Crew application">Crew application</option>
-              <option value="Report a player">Report a player</option>
-              <option value="Partnership / events">Partnership / events</option>
-            </select>
-          </div>
-
-          <div class="field-group">
-            <label for="contact-message">Message</label>
-            <textarea id="contact-message" name="message" required placeholder="How can we help?"></textarea>
-          </div>
-
-          <button class="btn-primary" type="submit">Send message</button>
-          <div class="status-message" id="contact-status"></div>
-        </form>
+      <article class="col-4 card">
+        <h3>Support</h3>
+        <p class="muted">Customer Service Representatives are ready to help.</p>
+        <ul class="list">
+          <li><a href="https://emiratesgrouproblox.link/support" target="_blank" rel="noopener">Support Center</a></li>
+          <li><a href="contact.html">Contact form</a></li>
+          <li><a href="links.html">All links</a></li>
+        </ul>
       </article>
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer>
-    <div>
-      <strong>Emirates Airlines (Unified)</strong> is a fan-made experience for
-      <strong>Emirates Group Roblox</strong> on Roblox.
-      It is <strong>not affiliated with, sponsored by, or endorsed by Emirates or the Emirates Group.</strong>
+    <div class="footer-inner">
+      <div>
+        <h4>About us</h4>
+        <p class="muted">
+          Emirates Airlines (Unified) is a virtual airline operated by Emirates Group Roblox, focused on realism,
+          safety, and hospitality across PTFS / RO-Aviation.
+        </p>
+        <div class="footer-logo" aria-hidden="true"></div>
+      </div>
+
+      <div>
+        <h4>Connect</h4>
+        <p class="muted">
+          Discord:
+          <a href="https://discord.gg/RaudauJNn9" target="_blank" rel="noopener">Join our server</a><br>
+          Support:
+          <a href="https://emiratesgrouproblox.link/support" target="_blank" rel="noopener">Support Center</a><br>
+          Main site:
+          <a href="https://emiratesgrouproblox.link" target="_blank" rel="noopener">emiratesgrouproblox.link</a>
+        </p>
+      </div>
+
+      <div>
+        <h4>Virtual services</h4>
+        <p class="muted">
+          <a href="booking.html">Book flights</a><br>
+          <a href="checkin.html">Online check-in</a><br>
+          <a href="flight-status.html">Flight status</a><br>
+          <a href="skywards.html">Emirates Skywards</a>
+        </p>
+      </div>
+
+      <div>
+        <h4>Legal</h4>
+        <p class="muted">
+          <a href="legal.html">Terms & policies</a><br>
+          <small>
+            Emirates Airlines (Unified) is not affiliated with, sponsored by, or endorsed by Emirates or
+            the Emirates Group. For virtual community use only.
+          </small>
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-small">
+      © 2025 Emirates Group Roblox • All rights reserved
     </div>
   </footer>
 
+  <!-- COOKIE NOTICE -->
+  <div id="cookie" class="cookie" role="dialog" aria-live="polite" aria-label="Cookie notice">
+    <div>
+      <strong>We use cookies.</strong>
+      <div class="muted">
+        Essential cookies keep this site working and help improve your experience.
+      </div>
+    </div>
+    <button class="btn" type="button"
+      onclick="(localStorage.setItem('egr_cookies','1'), document.getElementById('cookie').style.display='none')">
+      Accept
+    </button>
+  </div>
+
   <script>
-    // Replace these with your real backend endpoints (NOT the Discord webhook URLs).
-    const API_ENDPOINTS = {
-      booking: "/api/booking",
-      checkin: "/api/checkin",
-      contact: "/api/contact",
-    };
+    // Simple carousel (same logic, slightly tidied)
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const dots   = Array.from(document.querySelectorAll('.dot'));
+    let i = 0;
 
-    async function handleFormSubmit(formId, endpointKey, statusId) {
-      const form = document.getElementById(formId);
-      const statusEl = document.getElementById(statusId);
-
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        statusEl.textContent = "Sending...";
-        statusEl.className = "status-message";
-
-        const formData = new FormData(form);
-        const payload = {};
-        formData.forEach((value, key) => {
-          payload[key] = value;
-        });
-
-        try {
-          const res = await fetch(API_ENDPOINTS[endpointKey], {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
-
-          if (!res.ok) throw new Error("Request failed");
-
-          statusEl.textContent = "Sent successfully. A staff member will review it soon.";
-          statusEl.classList.add("status-success");
-          form.reset();
-        } catch (err) {
-          console.error(err);
-          statusEl.textContent = "There was a problem sending your request. Please try again later.";
-          statusEl.classList.add("status-error");
-        }
-      });
+    function showSlide(n) {
+      slides.forEach(s => s.classList.remove('active'));
+      dots.forEach(d => d.classList.remove('active'));
+      slides[n].classList.add('active');
+      dots[n].classList.add('active');
+      i = n;
     }
 
-    handleFormSubmit("booking-form", "booking", "booking-status");
-    handleFormSubmit("checkin-form", "checkin", "checkin-status");
-    handleFormSubmit("contact-form", "contact", "contact-status");
+    function nextSlide() {
+      showSlide((i + 1) % slides.length);
+    }
+
+    let sliderTimer = setInterval(nextSlide, 5000);
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => {
+        clearInterval(sliderTimer);
+        showSlide(idx);
+        sliderTimer = setInterval(nextSlide, 5000);
+      });
+    });
+
+    // Cookie notice
+    window.addEventListener('load', () => {
+      if (!localStorage.getItem('egr_cookies')) {
+        document.getElementById('cookie').style.display = 'flex';
+      }
+    });
   </script>
 </body>
 </html>
