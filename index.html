@@ -411,6 +411,219 @@
       }
     }
 
+    /* Generic section shell used for new sections */
+    .section-shell {
+      padding: 24px 0 10px;
+    }
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+    .section-header {
+      margin-bottom: 18px;
+    }
+    .section-header.center {
+      text-align: center;
+    }
+    .eyebrow-sm {
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .section-header h2 {
+      margin: 0 0 4px;
+      font-size: 1.4rem;
+      font-family: Merriweather, Georgia, serif;
+    }
+    .section-lead {
+      margin: 6px 0 0;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .section-actions {
+      margin-top: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      font-size: 0.9rem;
+    }
+    .text-link {
+      color: var(--brand-red);
+      font-weight: 500;
+    }
+
+    /* Featured destinations grid */
+    .dest-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .dest-card {
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+    }
+    .dest-figure {
+      margin: 0;
+      position: relative;
+      padding-top: 62%;
+      overflow: hidden;
+    }
+    .dest-figure img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .dest-body {
+      padding: 14px 16px 16px;
+      text-align: left;
+      border-top: 1px solid #f3f3f3;
+    }
+    .dest-tag {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .dest-city {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 2px;
+    }
+    .dest-link {
+      font-size: 0.9rem;
+      color: var(--brand-red);
+      font-weight: 500;
+    }
+
+    /* Skywards+ banner */
+    .skywards-banner {
+      margin: 32px 0;
+      background-image: url("assets/img/journey-skywards-banner.jpg");
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      color: #fff;
+    }
+    .skywards-banner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(0,0,0,0.7), rgba(0,0,0,0.3));
+    }
+    .skywards-inner {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 18px;
+      text-align: center;
+    }
+    .skywards-inner h2 {
+      margin: 8px 0 8px;
+      font-family: Merriweather, Georgia, serif;
+      font-size: 1.7rem;
+    }
+    .skywards-inner p {
+      margin: 0 0 16px;
+      font-size: 0.95rem;
+    }
+
+    /* Journey section (discover hub + cabins) */
+    .journey-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 2fr);
+      gap: 16px;
+    }
+    .journey-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+    }
+    .journey-card-large {
+      grid-row: span 2;
+    }
+    .journey-figure {
+      margin: 0;
+      position: relative;
+      padding-top: 65%;
+      overflow: hidden;
+    }
+    .journey-figure img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .journey-body {
+      padding: 14px 16px 16px;
+    }
+    .journey-title {
+      font-weight: 600;
+      margin: 2px 0 4px;
+    }
+    .journey-meta {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #9ca3af;
+    }
+    .journey-body p {
+      margin: 4px 0 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 900px) {
+      .journey-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .journey-card-large {
+        grid-row: auto;
+      }
+    }
+
+    /* About bubbles */
+    .about-bubbles {
+      padding: 32px 0 12px;
+    }
+    .bubble-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 22px;
+      margin-top: 18px;
+    }
+    .bubble-card {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+    }
+    .bubble-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      border: 4px solid #fff;
+      box-shadow: var(--shadow-soft);
+      margin: 0 auto 8px;
+    }
+
     /* Main content cards */
     .container {
       max-width: 1200px;
@@ -457,65 +670,193 @@
       .col-4 { grid-column: span 12; }
     }
 
-    /* Footer – multi-column like Emirates */
+    /* FOOTER – matches .footer-main/.footer-col markup */
     footer {
+      width: 100%;
       background: #222;
-      color: #f3f4f6;
-      margin-top: 24px;
+      color: #e5e7eb;
+      margin-top: 40px;
+      font-size: 14px;
       border-top: 2px solid var(--brand-red);
     }
-    .footer-inner {
-      max-width: 1200px;
+
+    .footer-main {
+      max-width: 1260px;
       margin: 0 auto;
-      padding: 28px 18px 22px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 24px;
-      font-size: 0.9rem;
+      padding: 32px 24px 36px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 32px 60px;
     }
-    footer h4 {
-      margin: 0 0 8px;
-      font-size: 0.95rem;
+
+    .footer-col {
+      flex: 0 0 210px;
+      min-width: 180px;
+    }
+
+    .footer-col h4 {
+      margin: 0 0 10px;
+      font-size: 13px;
+      color: #ffffff;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      color: #f9fafb;
     }
-    footer a {
-      color: #e5e7eb;
+
+    .footer-links {
+      list-style: none;
+      margin: 0;
+      padding: 0;
     }
-    footer a:hover {
+
+    .footer-links li {
+      margin: 4px 0;
+    }
+
+    .footer-links a {
+      color: #d1d5db;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
       color: #ffffff;
       text-decoration: underline;
     }
-    .footer-logo {
+
+    .footer-input {
+      display: flex;
       margin-top: 8px;
-      width: 70px;
-      height: 26px;
-      border-radius: 4px;
-      background: linear-gradient(180deg, #e51b24, #b3101a);
-      position: relative;
-      overflow: hidden;
+      gap: 8px;
     }
-    .footer-logo::after {
-      content: "EGR";
-      position: absolute;
-      inset: 0;
+
+    .footer-input input {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 13px;
+    }
+
+    .footer-input button {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: none;
+      background: var(--brand-red);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .footer-input button:hover {
+      background: #b9151b;
+    }
+
+    .footer-badges {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .footer-badge {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #555;
+      font-size: 12px;
+    }
+
+    .footer-social {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .footer-social a {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid #444;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #fff;
-      font-weight: 800;
-      font-size: 0.85rem;
-      letter-spacing: 0.16em;
+      color: #e5e7eb;
+      text-decoration: none;
+      font-size: 13px;
     }
-    .footer-small {
-      max-width: 1200px;
+
+    .footer-social a:hover {
+      border-color: #fff;
+      color: #fff;
+    }
+
+    .footer-bottom {
+      background: #1a1a1a;
+      border-top: 1px solid #333;
+      padding: 12px 0 14px;
+    }
+
+    .footer-bottom-inner {
+      max-width: 1260px;
       margin: 0 auto;
-      padding: 10px 18px 16px;
-      border-top: 1px solid #363636;
-      font-size: 0.8rem;
+      padding: 0 24px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
       color: #9ca3af;
-      text-align: center;
+    }
+
+    .footer-bottom-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .footer-bottom-links a {
+      color: #9ca3af;
+      text-decoration: none;
+    }
+
+    .footer-bottom-links a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .footer-logo-flag {
+      width: 80px;
+      height: 28px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #e51b24, #b40f1a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: #fff;
+    }
+
+    @media (max-width: 900px) {
+      .footer-main {
+        gap: 24px 32px;
+      }
+      .footer-col {
+        flex: 1 1 45%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .footer-col {
+        flex: 1 1 100%;
+      }
+      .footer-bottom-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
 
     /* Cookie banner */
@@ -602,7 +943,6 @@
   <!-- HERO: slider -->
   <section class="hero" aria-label="Featured">
     <div class="slides" aria-live="polite">
-      <!-- Your existing images -->
       <figure class="slide active">
         <img src="assets/img/hero1.jpg" alt="Image 1">
         <div class="veil"></div>
@@ -677,16 +1017,250 @@
           <input class="booking-input" type="text" placeholder="Dubai, London, etc." aria-label="Arrival airport">
         </div>
         <div class="booking-cta">
-          <!-- Takes user to your dedicated booking page -->
           <a class="btn" href="booking.html">Continue</a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- MAIN: quick actions + why fly with us -->
+  <!-- NEW: Featured PTFS destinations -->
+  <section class="section-shell">
+    <div class="section-inner">
+      <header class="section-header">
+        <p class="eyebrow-sm">Featured destinations from PTFS</p>
+        <h2>Discover our favourite PTFS hubs</h2>
+        <p class="section-lead">Plan your next virtual departure from some of the most iconic airports in PTFS.</p>
+      </header>
+
+      <div class="dest-grid">
+        <article class="dest-card">
+          <figure class="dest-figure">
+            <img src="assets/img/dest-ptfs-greater-rockford.jpg" alt="Greater Rockford International">
+          </figure>
+          <div class="dest-body">
+            <div class="dest-tag">PTFS • FEATURED DEPARTURE</div>
+            <div class="dest-city">Greater Rockford International</div>
+            <a class="dest-link" href="#">Discover for yourself</a>
+          </div>
+        </article>
+
+        <article class="dest-card">
+          <figure class="dest-figure">
+            <img src="assets/img/dest-ptfs-larnaca.jpg" alt="Larnaca International">
+          </figure>
+          <div class="dest-body">
+            <div class="dest-tag">PTFS • FEATURED DEPARTURE</div>
+            <div class="dest-city">Larnaca International</div>
+            <a class="dest-link" href="#">Discover for yourself</a>
+          </div>
+        </article>
+
+        <article class="dest-card">
+          <figure class="dest-figure">
+            <img src="assets/img/dest-ptfs-perth.jpg" alt="Perth International">
+          </figure>
+          <div class="dest-body">
+            <div class="dest-tag">PTFS • FEATURED DEPARTURE</div>
+            <div class="dest-city">Perth International</div>
+            <a class="dest-link" href="#">Discover for yourself</a>
+          </div>
+        </article>
+
+        <article class="dest-card">
+          <figure class="dest-figure">
+            <img src="assets/img/dest-ptfs-izolirani.jpg" alt="Izolirani International">
+          </figure>
+          <div class="dest-body">
+            <div class="dest-tag">PTFS • FEATURED DEPARTURE</div>
+            <div class="dest-city">Izolirani International</div>
+            <a class="dest-link" href="#">Discover for yourself</a>
+          </div>
+        </article>
+
+        <article class="dest-card">
+          <figure class="dest-figure">
+            <img src="assets/img/dest-ptfs-tokyo.jpg" alt="Tokyo International">
+          </figure>
+          <div class="dest-body">
+            <div class="dest-tag">PTFS • FEATURED DEPARTURE</div>
+            <div class="dest-city">Tokyo International</div>
+            <a class="dest-link" href="#">Discover for yourself</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="section-actions">
+        <a class="text-link" href="route-map.html">More destinations</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEW: Featured RO-Aviation destinations -->
+  <section class="section-shell">
+    <div class="section-inner">
+      <header class="section-header">
+        <p class="eyebrow-sm">Featured destinations from RO-Aviation</p>
+        <h2>Fly from the world’s busiest virtual hubs</h2>
+        <p class="section-lead">Connect through realistic recreations of global gateways across RO-Aviation.</p>
+      </header>
+
+      <div class="dest-grid">
+        <article class="dest-card">
+          <figure class="dest-figure">
+            <img src="assets/img/dest-roav-london-heathrow.jpg" alt="London Heathrow">
+          </figure>
+          <div class="dest-body">
+            <div class="dest-tag">ROAV • FEATURED DEPARTURE</div>
+            <div class="dest-city">London Heathrow</div>
+            <a class="dest-link" href="#">Discover for yourself</a>
+          </div>
+        </article>
+
+        <article class="dest-card">
+          <figure class="dest-figure">
+            <img src="assets/img/dest-roav-dubai-international.jpg" alt="Dubai International">
+          </figure>
+          <div class="dest-body">
+            <div class="dest-tag">ROAV • FEATURED DEPARTURE</div>
+            <div class="dest-city">Dubai International</div>
+            <a class="dest-link" href="#">Discover for yourself</a>
+          </div>
+        </article>
+
+        <article class="dest-card">
+          <figure class="dest-figure">
+            <img src="assets/img/dest-roav-changi.jpg" alt="Changi International">
+          </figure>
+          <div class="dest-body">
+            <div class="dest-tag">ROAV • FEATURED DEPARTURE</div>
+            <div class="dest-city">Changi International</div>
+            <a class="dest-link" href="#">Discover for yourself</a>
+          </div>
+        </article>
+
+        <article class="dest-card">
+          <figure class="dest-figure">
+            <img src="assets/img/dest-roav-istanbul.jpg" alt="Istanbul International">
+          </figure>
+          <div class="dest-body">
+            <div class="dest-tag">ROAV • FEATURED DEPARTURE</div>
+            <div class="dest-city">Istanbul International</div>
+            <a class="dest-link" href="#">Discover for yourself</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEW: Skywards+ banner -->
+  <section class="skywards-banner">
+    <div class="skywards-inner">
+      <p class="eyebrow-sm" style="color:#e5e7eb;">Emirates Skywards+</p>
+      <h2>Enhance your benefits with Skywards+</h2>
+      <p>Choose from virtual packages loaded with perks – from lounge access in Discord, to bonus miles and exclusive fly-out invites across PTFS and RO-Aviation.</p>
+      <a class="btn alt" href="skywards.html">Learn more</a>
+    </div>
+  </section>
+
+  <!-- NEW: Journey / cabins section -->
+  <section class="section-shell">
+    <div class="section-inner">
+      <header class="section-header center">
+        <p class="eyebrow-sm">Flying with Emirates Unified</p>
+        <h2>Make it an incredible journey</h2>
+        <p class="section-lead">Explore the Emirates experience and plan an unforgettable trip beyond your flight.</p>
+      </header>
+
+      <div class="journey-grid">
+        <article class="journey-card journey-card-large">
+          <figure class="journey-figure">
+            <img src="assets/img/journey-discover-dubai.jpg" alt="Discover Dubai">
+          </figure>
+          <div class="journey-body">
+            <div class="journey-meta">EMIRATES HUB EXPERIENCE</div>
+            <div class="journey-title">Discover Dubai</div>
+            <p>Connect through our virtual Dubai hub, explore skyline fly-bys and curated events inspired by the real city.</p>
+          </div>
+        </article>
+
+        <article class="journey-card">
+          <figure class="journey-figure">
+            <img src="assets/img/journey-first-class.jpg" alt="First Class">
+          </figure>
+          <div class="journey-body">
+            <div class="journey-meta">CABIN EXPERIENCE</div>
+            <div class="journey-title">First Class</div>
+            <p>Private suites, finest service and a dedicated crew team for our most exclusive guests.</p>
+          </div>
+        </article>
+
+        <article class="journey-card">
+          <figure class="journey-figure">
+            <img src="assets/img/journey-business-class.jpg" alt="Business Class">
+          </figure>
+          <div class="journey-body">
+            <div class="journey-meta">CABIN EXPERIENCE</div>
+            <div class="journey-title">Business Class</div>
+            <p>Fully-flat comfort, priority boarding and a smooth end-to-end journey.</p>
+          </div>
+        </article>
+
+        <article class="journey-card">
+          <figure class="journey-figure">
+            <img src="assets/img/journey-premium-economy.jpg" alt="Premium Economy">
+          </figure>
+          <div class="journey-body">
+            <div class="journey-meta">CABIN EXPERIENCE</div>
+            <div class="journey-title">Premium Economy</div>
+            <p>Extra comfort and elevated service at an accessible tier for frequent flyers.</p>
+          </div>
+        </article>
+
+        <article class="journey-card">
+          <figure class="journey-figure">
+            <img src="assets/img/journey-economy-class.jpg" alt="Economy Class">
+          </figure>
+          <div class="journey-body">
+            <div class="journey-meta">CABIN EXPERIENCE</div>
+            <div class="journey-title">Economy Class</div>
+            <p>Great value seats with the same Emirates hospitality on every route we operate.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEW: About us bubbles -->
+  <section class="about-bubbles">
+    <div class="section-inner">
+      <header class="section-header center">
+        <h2>About us</h2>
+        <p class="section-lead">Learn more about our history, our planet, our people and community initiatives.</p>
+      </header>
+
+      <div class="bubble-row">
+        <a class="bubble-card" href="our-business.html">
+          <span class="bubble-img" style="background-image:url('assets/img/about-our-business.jpg');"></span>
+          <div>Our business</div>
+        </a>
+        <a class="bubble-card" href="our-planet.html">
+          <span class="bubble-img" style="background-image:url('assets/img/about-our-planet.jpg');"></span>
+          <div>Our planet</div>
+        </a>
+        <a class="bubble-card" href="our-people.html">
+          <span class="bubble-img" style="background-image:url('assets/img/about-our-people.jpg');"></span>
+          <div>Our people</div>
+        </a>
+        <a class="bubble-card" href="our-communities.html">
+          <span class="bubble-img" style="background-image:url('assets/img/about-our-communities.jpg');"></span>
+          <div>Our communities</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Existing main quick actions -->
   <main class="container">
-    <!-- Quick actions -->
     <section class="grid" aria-label="Quick actions">
       <article class="col-4 card">
         <h3>Book a flight</h3>
@@ -705,7 +1279,6 @@
       </article>
     </section>
 
-    <!-- Why fly with us -->
     <section class="grid" style="margin-top:16px" aria-label="Why fly with us">
       <article class="col-4 card">
         <h3>Cabins</h3>
@@ -737,171 +1310,162 @@
     </section>
   </main>
 
-<footer>
-  <div class="footer-main">
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-main">
 
-    <!-- ABOUT -->
-    <div class="footer-col">
-      <h4>About us</h4>
-      <ul class="footer-links">
-        <li><a href="#">About Emirates Airlines (Unified)</a></li>
-        <li><a href="#">Careers (Virtual)</a></li>
-        <li><a href="#">Our virtual business</a></li>
-        <li><a href="#">Our planet (sustainability)</a></li>
-        <li><a href="#">Our people</a></li>
-        <li><a href="#">Our communities</a></li>
-      </ul>
-    </div>
-
-    <!-- HELP -->
-    <div class="footer-col">
-      <h4>Help</h4>
-      <ul class="footer-links">
-        <li><a href="#">Help and contact</a></li>
-        <li><a href="#">Travel updates</a></li>
-        <li><a href="#">Special assistance</a></li>
-        <li><a href="#">Frequently asked questions</a></li>
-      </ul>
-    </div>
-
-    <!-- BOOK -->
-    <div class="footer-col">
-      <h4>Book</h4>
-      <ul class="footer-links">
-        <li><a href="#">Book flights</a></li>
-        <li><a href="#">Travel services</a></li>
-        <li><a href="#">Transportation</a></li>
-        <li><a href="#">Planning your trip</a></li>
-      </ul>
-    </div>
-
-    <!-- MANAGE -->
-    <div class="footer-col">
-      <h4>Manage</h4>
-      <ul class="footer-links">
-        <li><a href="#">Check-in</a></li>
-        <li><a href="#">Manage your booking</a></li>
-        <li><a href="#">Chauffeur drive</a></li>
-        <li><a href="#">Flight status</a></li>
-      </ul>
-    </div>
-
-    <!-- BEFORE YOU FLY -->
-    <div class="footer-col">
-      <h4>Before you fly</h4>
-      <ul class="footer-links">
-        <li><a href="#">Baggage</a></li>
-        <li><a href="#">Visa and passport info</a></li>
-        <li><a href="#">Health</a></li>
-        <li><a href="#">Travel information</a></li>
-        <li><a href="#">Dubai International (virtual)</a></li>
-        <li><a href="#">To and from the airport</a></li>
-        <li><a href="#">Rules and notices</a></li>
-      </ul>
-    </div>
-
-    <!-- WHERE WE FLY -->
-    <div class="footer-col">
-      <h4>Where we fly</h4>
-      <ul class="footer-links">
-        <li><a href="#">Route map</a></li>
-        <li><a href="#">Africa</a></li>
-        <li><a href="#">Asia and Pacific</a></li>
-        <li><a href="#">Europe</a></li>
-        <li><a href="#">The Americas</a></li>
-        <li><a href="#">The Middle East</a></li>
-        <li><a href="#">All destinations</a></li>
-      </ul>
-    </div>
-
-    <!-- EXPERIENCE -->
-    <div class="footer-col">
-      <h4>Experience</h4>
-      <ul class="footer-links">
-        <li><a href="#">Cabin features</a></li>
-        <li><a href="#">Shop Emirates (virtual)</a></li>
-        <li><a href="#">What's on your flight</a></li>
-        <li><a href="#">Inflight entertainment</a></li>
-        <li><a href="#">Dining</a></li>
-        <li><a href="#">Our lounges</a></li>
-        <li><a href="#">Dubai stopover</a></li>
-      </ul>
-    </div>
-
-    <!-- LOYALTY -->
-    <div class="footer-col">
-      <h4>Loyalty</h4>
-      <ul class="footer-links">
-        <li><a href="#">Log in to Emirates Skywards</a></li>
-        <li><a href="#">Join Emirates Skywards</a></li>
-        <li><a href="#">Our partners</a></li>
-        <li><a href="#">Business Rewards benefits</a></li>
-        <li><a href="#">Register your company</a></li>
-        <li><a href="#">Skywards programme rules</a></li>
-      </ul>
-    </div>
-
-    <!-- SUBSCRIBE -->
-    <div class="footer-col">
-      <h4>Subscribe to our special offers</h4>
-      <p>Stay updated on virtual fares, flights, and events.</p>
-      <div class="footer-input">
-        <input type="email" placeholder="Email address">
-        <button>Subscribe</button>
-      </div>
-      <p style="margin-top:6px;">
-        <a href="#">Unsubscribe or change preferences</a>
-      </p>
-    </div>
-
-    <!-- APP BADGES -->
-    <div class="footer-col">
-      <h4>Emirates App</h4>
-      <p>Booking app (coming soon).</p>
-      <div class="footer-badges">
-        <span class="footer-badge">App Store</span>
-        <span class="footer-badge">Google Play</span>
-        <span class="footer-badge">AppGallery</span>
-      </div>
-    </div>
-
-    <!-- SOCIAL -->
-    <div class="footer-col">
-      <h4>Connect with us</h4>
-      <div class="footer-social">
-        <a href="#">f</a>
-        <a href="#">X</a>
-        <a href="#">▶</a>
-        <a href="#">in</a>
-        <a href="#">◎</a>
-        <a href="#">♫</a>
-        <a href="#">D</a>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="footer-bottom">
-    <div class="footer-bottom-inner">
-      <div class="footer-bottom-links">
-        <a href="#">Accessibility</a>
-        <a href="#">Contact</a>
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">Cookies</a>
-        <a href="#">Cybersecurity</a>
-        <a href="#">Sitemap</a>
+      <div class="footer-col">
+        <h4>About us</h4>
+        <ul class="footer-links">
+          <li><a href="#">About Emirates Airlines (Unified)</a></li>
+          <li><a href="#">Careers (Virtual)</a></li>
+          <li><a href="#">Our virtual business</a></li>
+          <li><a href="#">Our planet (sustainability)</a></li>
+          <li><a href="#">Our people</a></li>
+          <li><a href="#">Our communities</a></li>
+        </ul>
       </div>
 
-      <div style="display:flex;align-items:center;gap:12px;">
-        <span>© 2025 Emirates Group Roblox. All rights reserved.</span>
-        <div class="footer-logo-flag">EGR</div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul class="footer-links">
+          <li><a href="#">Help and contact</a></li>
+          <li><a href="#">Travel updates</a></li>
+          <li><a href="#">Special assistance</a></li>
+          <li><a href="#">Frequently asked questions</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Book</h4>
+        <ul class="footer-links">
+          <li><a href="#">Book flights</a></li>
+          <li><a href="#">Travel services</a></li>
+          <li><a href="#">Transportation</a></li>
+          <li><a href="#">Planning your trip</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Manage</h4>
+        <ul class="footer-links">
+          <li><a href="#">Check-in</a></li>
+          <li><a href="#">Manage your booking</a></li>
+          <li><a href="#">Chauffeur drive</a></li>
+          <li><a href="#">Flight status</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Before you fly</h4>
+        <ul class="footer-links">
+          <li><a href="#">Baggage</a></li>
+          <li><a href="#">Visa and passport info</a></li>
+          <li><a href="#">Health</a></li>
+          <li><a href="#">Travel information</a></li>
+          <li><a href="#">Dubai International (virtual)</a></li>
+          <li><a href="#">To and from the airport</a></li>
+          <li><a href="#">Rules and notices</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Where we fly</h4>
+        <ul class="footer-links">
+          <li><a href="#">Route map</a></li>
+          <li><a href="#">Africa</a></li>
+          <li><a href="#">Asia and Pacific</a></li>
+          <li><a href="#">Europe</a></li>
+          <li><a href="#">The Americas</a></li>
+          <li><a href="#">The Middle East</a></li>
+          <li><a href="#">All destinations</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Experience</h4>
+        <ul class="footer-links">
+          <li><a href="#">Cabin features</a></li>
+          <li><a href="#">Shop Emirates (virtual)</a></li>
+          <li><a href="#">What's on your flight</a></li>
+          <li><a href="#">Inflight entertainment</a></li>
+          <li><a href="#">Dining</a></li>
+          <li><a href="#">Our lounges</a></li>
+          <li><a href="#">Dubai stopover</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Loyalty</h4>
+        <ul class="footer-links">
+          <li><a href="#">Log in to Emirates Skywards</a></li>
+          <li><a href="#">Join Emirates Skywards</a></li>
+          <li><a href="#">Our partners</a></li>
+          <li><a href="#">Business Rewards benefits</a></li>
+          <li><a href="#">Register your company</a></li>
+          <li><a href="#">Skywards programme rules</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Subscribe to our special offers</h4>
+        <p>Get the latest virtual fares and offers from Emirates Group Roblox.</p>
+        <div class="footer-input">
+          <input type="email" placeholder="Email address">
+          <button>Subscribe</button>
+        </div>
+        <p style="margin-top:6px;"><a href="#">Unsubscribe or change your preferences</a></p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Emirates app</h4>
+        <p>Book and manage your virtual flights on the go (coming soon).</p>
+        <div class="footer-badges">
+          <span class="footer-badge">App Store</span>
+          <span class="footer-badge">Google Play</span>
+          <span class="footer-badge">AppGallery</span>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Connect with us</h4>
+        <p>Share your Emirates Group Roblox experience.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="X / Twitter">X</a>
+          <a href="#" aria-label="YouTube">▶</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="Instagram">◎</a>
+          <a href="#" aria-label="TikTok">♫</a>
+          <a href="#" aria-label="Discord">D</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">
+        <div class="footer-bottom-links">
+          <a href="#">Accessibility</a>
+          <a href="#">Contact</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Cookie policy</a>
+          <a href="#">Cybersecurity</a>
+          <a href="#">Sitemap</a>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span>© 2025 Emirates Group Roblox. All rights reserved.</span>
+          <div class="footer-logo-flag">EGR</div>
+        </div>
+      </div>
+      <div class="footer-bottom-inner" style="border-top:1px solid #333; margin-top:8px;">
+        <span>
+          This is a fan-made virtual experience and is <strong>not affiliated with, sponsored by, or endorsed by Emirates or the Emirates Group.</strong>
+        </span>
       </div>
     </div>
-  </div>
-</footer>
-
-
+  </footer>
 
   <!-- COOKIE NOTICE -->
   <div id="cookie" class="cookie" role="dialog" aria-live="polite" aria-label="Cookie notice">
@@ -918,7 +1482,7 @@
   </div>
 
   <script>
-    // Simple carousel (same logic, slightly tidied)
+    // Simple carousel
     const slides = Array.from(document.querySelectorAll('.slide'));
     const dots   = Array.from(document.querySelectorAll('.dot'));
     let i = 0;
