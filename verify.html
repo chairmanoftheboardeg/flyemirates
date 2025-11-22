@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Emirates Airlines Unified – Verification</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Emirates Airlines Unified Verification – confirm your agreement to Emirates Group Roblox terms of service."
+  />
+  <style>
+    :root {
+      --bg: #050816;
+      --card-bg: #101324;
+      --accent: #d81e05;
+      --accent-soft: #f3c4b8;
+      --text-main: #ffffff;
+      --text-muted: #a4acc7;
+      --border-subtle: #252a40;
+      --radius-lg: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top left, #1a2340 0, #050816 55%);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .shell {
+      max-width: 960px;
+      width: 100%;
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), #f5b041);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .brand-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-name {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-soft);
+    }
+
+    .brand-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .card {
+      background: rgba(16, 19, 36, 0.96);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.55);
+      padding: 22px 22px 18px;
+      backdrop-filter: blur(12px);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      align-items: flex-start;
+    }
+
+    .card-title {
+      font-size: 22px;
+      font-weight: 650;
+      margin-bottom: 4px;
+    }
+
+    .card-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .status-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(216, 30, 5, 0.35);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-soft);
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.6fr);
+      gap: 18px;
+      margin-top: 10px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .step-badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--accent-soft);
+    }
+
+    .tos-box {
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(5, 8, 22, 0.75);
+      padding: 10px 12px;
+      max-height: 220px;
+      overflow: auto;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .tos-box h3 {
+      font-size: 13px;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .tos-box p + p,
+    .tos-box ul {
+      margin-top: 8px;
+    }
+
+    .tos-box ul {
+      padding-left: 16px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 12px 0 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .checkbox-row input {
+      margin-top: 3px;
+      accent-color: var(--accent);
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.08s ease, box-shadow 0.08s ease,
+        background 0.12s ease;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 10px 28px rgba(216, 30, 5, 0.45);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    button:not(:disabled):active {
+      transform: translateY(1px);
+      box-shadow: none;
+    }
+
+    .footer-line {
+      margin-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 720px) {
+      .card {
+        padding: 18px 16px 14px;
+      }
+
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .card-header {
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .status-pill {
+        align-self: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="logo-row">
+      <div class="logo-mark">E</div>
+      <div class="brand-block">
+        <span class="brand-name">Emirates Group Roblox</span>
+        <span class="brand-sub">Emirates Airlines • Unified Server</span>
+      </div>
+    </div>
+
+    <section class="card">
+      <header class="card-header">
+        <div>
+          <h1 class="card-title">Account Verification</h1>
+          <p class="card-subtitle">
+            Please review the terms of service for Emirates Airlines (Unified)
+            and confirm your agreement to complete verification.
+          </p>
+        </div>
+        <div class="status-pill">Verification Portal</div>
+      </header>
+
+      <div class="grid">
+        <!-- Left: steps / info -->
+        <div>
+          <h2 class="section-title">Verification requirements</h2>
+          <ul class="steps">
+            <li class="step-item">
+              <span class="step-badge">1</span>
+              <span>You must be a member of the official <strong>Emirates Airlines (Unified)</strong> Discord server.</span>
+            </li>
+            <li class="step-item">
+              <span class="step-badge">2</span>
+              <span>Carefully review the Emirates Group Roblox Terms of Service and community policies.</span>
+            </li>
+            <li class="step-item">
+              <span class="step-badge">3</span>
+              <span>Confirm your acceptance below to complete verification and receive your access role.</span>
+            </li>
+          </ul>
+
+          <p class="card-subtitle">
+            If you did not expect to see this page, please close this tab. For support,
+            contact the Emirates Group Roblox Technology Systems (IT) Department.
+          </p>
+        </div>
+
+        <!-- Right: ToS & controls -->
+        <div>
+          <h2 class="section-title">Terms of Service overview</h2>
+          <div class="tos-box">
+            <h3>Emirates Group Roblox – Terms of Service (Summary)</h3>
+            <p>
+              By proceeding with verification, you acknowledge that Emirates Group Roblox
+              (“EGR”) is a fan-created organization and is not affiliated with, endorsed by,
+              or officially connected to the real-world Emirates Group or any of its subsidiaries.
+            </p>
+            <p>
+              You agree to comply with all applicable Roblox rules, Discord Terms of Service,
+              Discord Community Guidelines, and the internal policies of Emirates Group Roblox.
+              This includes, but is not limited to, maintaining respectful conduct, following
+              staff instructions, and avoiding any form of harassment, discrimination, or misuse
+              of EGR systems and services.
+            </p>
+            <p>
+              EGR may record limited information relating to your Discord account and activity
+              on our systems for security, auditing, and operational purposes. Any such
+              information will be handled in accordance with our internal data handling
+              standards and may be shared with authorized staff where required.
+            </p>
+            <p>
+              Breach of these terms may result in suspension or removal of access to Emirates
+              Group Roblox services, including the Emirates Airlines Unified Discord server,
+              without prior notice.
+            </p>
+            <p>
+              For the full, binding version of the Emirates Group Roblox Terms of Service and
+              privacy information, please refer to the official documentation provided by the
+              Technology Systems (IT) Department.
+            </p>
+          </div>
+
+          <label class="checkbox-row">
+            <input type="checkbox" id="acceptCheckbox" />
+            <span>
+              I confirm that I have read and understood the Emirates Group Roblox Terms of
+              Service and agree to comply with all policies and instructions while using
+              Emirates Airlines (Unified Server) services.
+            </span>
+          </label>
+
+          <div class="actions">
+            <button
+              type="button"
+              class="btn-secondary"
+              onclick="window.close();"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn-primary"
+              id="verifyButton"
+              disabled
+            >
+              ✔ Accept &amp; Complete Verification
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-line">
+        <span>© 2025 Emirates Group Roblox. All Rights Reserved.</span>
+        <span>Operated by the Emirates Group Roblox Technology Systems Division.</span>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const checkbox = document.getElementById('acceptCheckbox');
+    const verifyButton = document.getElementById('verifyButton');
+
+    checkbox.addEventListener('change', () => {
+      verifyButton.disabled = !checkbox.checked;
+    });
+
+    verifyButton.addEventListener('click', async () => {
+      verifyButton.disabled = true;
+      verifyButton.textContent = 'Processing...';
+
+      // TODO: when we hook this to the bot/backend, we will:
+      //  - send the user/session info to an API
+      //  - give them the Verified role in Discord
+      //
+      // For now we'll just show a confirmation message
+      // so you can see the flow working.
+
+      try {
+        alert(
+          'Thank you. Your acceptance has been recorded.\n\n' +
+          'In the final version, this step will notify the Emirates Airlines (Unified) bot to grant your verification role.'
+        );
+        verifyButton.textContent = '✔ Accepted';
+      } catch (err) {
+        console.error(err);
+        verifyButton.disabled = false;
+        verifyButton.textContent = '✔ Accept & Complete Verification';
+        alert(
+          'An error occurred while processing verification. Please try again or contact IT.'
+        );
+      }
+    });
+  </script>
+</body>
+</html>
