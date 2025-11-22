@@ -396,40 +396,59 @@
     </section>
   </main>
 
-  <script>
-    const checkbox = document.getElementById('acceptCheckbox');
-    const verifyButton = document.getElementById('verifyButton');
+ <script>
+  const checkbox = document.getElementById('acceptCheckbox');
+  const verifyButton = document.getElementById('verifyButton');
 
-    checkbox.addEventListener('change', () => {
-      verifyButton.disabled = !checkbox.checked;
-    });
+  // Read token from URL: ?token=XXXX
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('token');
 
-    verifyButton.addEventListener('click', async () => {
-      verifyButton.disabled = true;
-      verifyButton.textContent = 'Processing...';
+  const API_BASE = 'http://localhost:3000'; // ⬅ change later when you host the API
 
-      // TODO: when we hook this to the bot/backend, we will:
-      //  - send the user/session info to an API
-      //  - give them the Verified role in Discord
-      //
-      // For now we'll just show a confirmation message
-      // so you can see the flow working.
+  checkbox.addEventListener('change', () => {
+    verifyButton.disabled = !checkbox.checked;
+  });
 
-      try {
-        alert(
-          'Thank you. Your acceptance has been recorded.\n\n' +
-          'In the final version, this step will notify the Emirates Airlines (Unified) bot to grant your verification role.'
-        );
-        verifyButton.textContent = '✔ Accepted';
-      } catch (err) {
-        console.error(err);
-        verifyButton.disabled = false;
-        verifyButton.textContent = '✔ Accept & Complete Verification';
-        alert(
-          'An error occurred while processing verification. Please try again or contact IT.'
-        );
+  verifyButton.addEventListener('click', async () => {
+    if (!token) {
+      alert(
+        'No verification token was found in the link.\nPlease start verification again from the Emirates Airlines Unified Discord server.'
+      );
+      return;
+    }
+
+    verifyButton.disabled = true;
+    verifyButton.textContent = 'Processing...';
+
+    try {
+      const response = await fetch(`${API_BASE}/api/verify/complete`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token }),
+      });
+
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(text || 'Server error');
       }
-    });
-  </script>
+
+      const data = await response.json();
+      if (!data.ok) {
+        throw new Error(data.error || 'Unknown error');
+      }
+
+      verifyButton.textContent = '✔ Verified';
+      alert('✅ Verification complete. You may now return to Discord.');
+    } catch (err) {
+      console.error(err);
+      verifyButton.disabled = false;
+      verifyButton.textContent = '✔ Accept & Complete Verification';
+      alert(
+        '❌ An error occurred while processing verification.\nPlease try again or contact the Technology Systems (IT) Department.'
+      );
+    }
+  });
+</script>
 </body>
 </html>
