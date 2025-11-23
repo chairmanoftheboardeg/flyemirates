@@ -913,134 +913,158 @@
   </footer>
 
   <script>
-
   // ---- BOT API CONFIG ----
-const BOT_API_BASE = 'https://your-bot-api-host-here'; 
-// e.g. https://egr-bot.yourdomain.com when you host the bot
-// For now, you can leave it as "" and we’ll safely skip.
+  // When the bot is hosted, set this to your bot's public URL, e.g.:
+  // const BOT_API_BASE = "https://egr-bot.onrender.com";
+  const BOT_API_BASE = "";
 
-    // ---- CONFIG ----
-    const DISCORD_WEBHOOK_URL =
-      "https://discord.com/api/webhooks/1437125545241608232/1vHITBSy6nFEGwCqkOUFVmCC7q8SO0b-W08PL1yaSt9tIAkxtHrxZqW9_s7PfQmiblrY";
+  // ---- CONFIG ----
+  const DISCORD_WEBHOOK_URL =
+    "PUT_YOUR_EXISTING_BOOKING_WEBHOOK_URL_HERE";
 
-    // ---- Helpers ----
-    function generateBookingRef() {
-      const chars = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
-      let ref = "EGR";
-      for (let i = 0; i < 6; i++) {
-        ref += chars[Math.floor(Math.random() * chars.length)];
-      }
-      return ref;
+  // ---- Helpers ----
+  function generateBookingRef() {
+    const chars = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+    let ref = "EGR";
+    for (let i = 0; i < 6; i++) {
+      ref += chars[Math.floor(Math.random() * chars.length)];
     }
+    return ref;
+  }
 
-    function createPassengerCard(index) {
-      const wrapper = document.createElement("div");
-      wrapper.className = "passenger-card";
-      wrapper.innerHTML = `
-        <div class="passenger-title">Passenger ${index}</div>
-        <div class="form-grid">
-          <div class="form-row">
-            <label class="form-label" for="p${index}-roblox">
-              Roblox username
-            </label>
-            <input id="p${index}-roblox" name="p${index}-roblox" class="form-input" required>
-          </div>
-          <div class="form-row">
-            <label class="form-label" for="p${index}-discord">
-              Discord username
-            </label>
-            <input id="p${index}-discord" name="p${index}-discord" class="form-input" placeholder="ExampleUser#0000" required>
-          </div>
+  function createPassengerCard(index) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "passenger-card";
+    wrapper.innerHTML = `
+      <div class="passenger-title">Passenger ${index}</div>
+      <div class="form-grid">
+        <div class="form-row">
+          <label class="form-label" for="p${index}-roblox">
+            Roblox username
+          </label>
+          <input id="p${index}-roblox" name="p${index}-roblox" class="form-input" required>
         </div>
         <div class="form-row">
-          <label class="form-label" for="p${index}-discordId">
-            Discord ID <span class="hint">optional but recommended</span>
+          <label class="form-label" for="p${index}-discord">
+            Discord username
           </label>
-          <input id="p${index}-discordId" name="p${index}-discordId" class="form-input">
+          <input id="p${index}-discord" name="p${index}-discord" class="form-input" placeholder="ExampleUser#0000" required>
         </div>
-      `;
-      return wrapper;
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="p${index}-discordId">
+          Discord ID <span class="hint">optional but recommended</span>
+        </label>
+        <input id="p${index}-discordId" name="p${index}-discordId" class="form-input">
+      </div>
+    `;
+    return wrapper;
+  }
+
+  function renderPassengers() {
+    const count = Number(document.getElementById("passengerCount").value || 1);
+    const container = document.getElementById("passengerContainer");
+    container.innerHTML = "";
+    const clamped = Math.min(Math.max(count, 1), 8);
+    for (let i = 1; i <= clamped; i++) {
+      container.appendChild(createPassengerCard(i));
     }
+    document.getElementById("passengerCount").value = clamped;
+    document.getElementById("summaryPax").textContent = clamped;
+  }
 
-    function renderPassengers() {
-      const count = Number(document.getElementById("passengerCount").value || 1);
-      const container = document.getElementById("passengerContainer");
-      container.innerHTML = "";
-      const clamped = Math.min(Math.max(count, 1), 8);
-      for (let i = 1; i <= clamped; i++) {
-        container.appendChild(createPassengerCard(i));
-      }
-      document.getElementById("passengerCount").value = clamped;
-      document.getElementById("summaryPax").textContent = clamped;
-    }
+  function updateSummary() {
+    const sim = document.getElementById("simulator").value;
+    const cabin = document.getElementById("cabin").value;
+    const from = document.getElementById("from").value.trim();
+    const to = document.getElementById("to").value.trim();
+    const date = document.getElementById("date").value;
 
-    function updateSummary() {
-      const sim = document.getElementById("simulator").value;
-      const cabin = document.getElementById("cabin").value;
-      const from = document.getElementById("from").value.trim();
-      const to = document.getElementById("to").value.trim();
-      const date = document.getElementById("date").value;
+    document.getElementById("summarySimulator").textContent = sim;
+    let cabinLabel = cabin;
+    if (cabin === "Economy") cabinLabel = "Economy (Free)";
+    document.getElementById("summaryCabin").textContent = cabinLabel;
 
-      document.getElementById("summarySimulator").textContent = sim;
-      let cabinLabel = cabin;
-      if (cabin === "Economy") cabinLabel = "Economy (Free)";
-      document.getElementById("summaryCabin").textContent = cabinLabel;
+    document.getElementById("summaryRoute").textContent =
+      from && to
+        ? `${from} → ${to}`
+        : from
+        ? `${from} → ?`
+        : to
+        ? `? → ${to}`
+        : "–";
 
-      document.getElementById("summaryRoute").textContent =
-        from && to ? `${from} → ${to}` :
-        from ? `${from} → ?` :
-        to ? `? → ${to}` : "–";
+    document.getElementById("summaryDate").textContent = date || "–";
+  }
 
-      document.getElementById("summaryDate").textContent = date || "–";
-    }
+  // ---- Init ----
+  renderPassengers();
+  updateSummary();
 
-    // ---- Init ----
-    renderPassengers();
-    updateSummary();
+  document
+    .getElementById("passengerCount")
+    .addEventListener("change", renderPassengers);
+  ["simulator", "cabin", "from", "to", "date"].forEach((id) => {
+    document.getElementById(id).addEventListener("input", updateSummary);
+    document.getElementById(id).addEventListener("change", updateSummary);
+  });
 
-    document.getElementById("passengerCount").addEventListener("change", renderPassengers);
-    ["simulator","cabin","from","to","date"].forEach(id => {
-      document.getElementById(id).addEventListener("input", updateSummary);
-      document.getElementById(id).addEventListener("change", updateSummary);
-    });
+  const statusArea = document.getElementById("statusArea");
 
-    const statusArea = document.getElementById("statusArea");
+  function setStatus(type, message) {
+    statusArea.style.display = "block";
+    statusArea.className = "status-banner " + type;
+    statusArea.innerHTML = message;
+  }
 
-    function setStatus(type, message) {
-      statusArea.style.display = "block";
-      statusArea.className = "status-banner " + type;
-      statusArea.innerHTML = message;
-    }
-
-    // ---- Submit handler ----
-    document.getElementById("bookingForm").addEventListener("submit", async (e) => {
+  // ---- Submit handler ----
+  document
+    .getElementById("bookingForm")
+    .addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      // Basic front-end check
       if (!document.getElementById("agree").checked) {
-        setStatus("error", "<strong>Check your details:</strong> please confirm you understand this is a virtual Roblox flight.");
+        setStatus(
+          "error",
+          "<strong>Check your details:</strong> please confirm you understand this is a virtual Roblox flight."
+        );
         return;
       }
 
       const sim = document.getElementById("simulator").value;
       const cabin = document.getElementById("cabin").value;
-      const from = document.getElementById("from").value.trim() || "Not provided";
-      const to = document.getElementById("to").value.trim() || "Not provided";
+      const from =
+        document.getElementById("from").value.trim() || "Not provided";
+      const to =
+        document.getElementById("to").value.trim() || "Not provided";
       const date = document.getElementById("date").value || "Not provided";
       const timeOfDay = document.getElementById("timeOfDay").value;
-      const paxCount = Number(document.getElementById("passengerCount").value || 1);
+      const paxCount = Number(
+        document.getElementById("passengerCount").value || 1
+      );
 
-      const primaryDiscord = document.getElementById("primaryDiscord").value.trim();
-      const primaryDiscordId = document.getElementById("primaryDiscordId").value.trim();
+      const primaryDiscord =
+        document.getElementById("primaryDiscord").value.trim();
+      const primaryDiscordId =
+        document.getElementById("primaryDiscordId").value.trim();
       const notes = document.getElementById("notes").value.trim();
 
       const passengers = [];
       for (let i = 1; i <= paxCount; i++) {
-        const roblox = document.getElementById(`p${i}-roblox`).value.trim();
-        const discordUser = document.getElementById(`p${i}-discord`).value.trim();
-        const discordId = document.getElementById(`p${i}-discordId`).value.trim();
+        const roblox = document
+          .getElementById(`p${i}-roblox`)
+          .value.trim();
+        const discordUser = document
+          .getElementById(`p${i}-discord`)
+          .value.trim();
+        const discordId = document
+          .getElementById(`p${i}-discordId`)
+          .value.trim();
         if (!roblox || !discordUser) {
-          setStatus("error", `<strong>Missing info:</strong> please fill in Roblox & Discord usernames for passenger ${i}.`);
+          setStatus(
+            "error",
+            `<strong>Missing info:</strong> please fill in Roblox & Discord usernames for passenger ${i}.`
+          );
           return;
         }
         passengers.push({ index: i, roblox, discordUser, discordId });
@@ -1048,69 +1072,106 @@ const BOT_API_BASE = 'https://your-bot-api-host-here';
 
       const bookingRef = generateBookingRef();
 
-      // Build a nice Discord embed
-      const passengerLines = passengers.map(p =>
-        `**#${p.index}**\nRoblox: \`${p.roblox}\`\nDiscord: \`${p.discordUser}\`${p.discordId ? `\nDiscord ID: \`${p.discordId}\`` : ""}`
-      ).join("\n\n");
+      const passengerLines = passengers
+        .map(
+          (p) =>
+            `**#${p.index}**\nRoblox: \`${p.roblox}\`\nDiscord: \`${p.discordUser}\`${
+              p.discordId ? `\nDiscord ID: \`${p.discordId}\`` : ""
+            }`
+        )
+        .join("\n\n");
 
       const embed = {
         title: `New booking — ${sim} ${from} → ${to}`,
-        description: `A new booking request has been submitted from the website.\n\n**Booking reference:** \`${bookingRef}\``,
+        description:
+          "A new booking request has been submitted from the website.\n\n" +
+          `**Booking reference:** \`${bookingRef}\``,
         color: 0xc20e1a,
         fields: [
           { name: "Simulator", value: sim, inline: true },
           { name: "Cabin", value: cabin, inline: true },
           { name: "Passengers", value: String(paxCount), inline: true },
           { name: "Route", value: `${from} → ${to}`, inline: false },
-          { name: "Preferred date / time", value: `${date} • ${timeOfDay}`, inline: false },
+          {
+            name: "Preferred date / time",
+            value: `${date} • ${timeOfDay}`,
+            inline: false,
+          },
           {
             name: "Primary contact",
-            value: `Discord: \`${primaryDiscord}\`${primaryDiscordId ? `\nID: \`${primaryDiscordId}\`` : ""}`,
-            inline: false
+            value: `Discord: \`${primaryDiscord}\`${
+              primaryDiscordId ? `\nID: \`${primaryDiscordId}\`` : ""
+            }`,
+            inline: false,
           },
           {
             name: "Passengers",
             value: passengerLines || "No passenger details provided.",
-            inline: false
-          }
+            inline: false,
+          },
         ],
         footer: {
-          text: "Emirates Airlines (Unified) — Booking system"
+          text: "Emirates Airlines (Unified) — Booking system",
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       };
 
       if (notes) {
         embed.fields.push({
           name: "Additional notes",
           value: notes.substring(0, 1024),
-          inline: false
+          inline: false,
         });
       }
 
-      setStatus("info", "<strong>Status:</strong> Submitting your booking to our Discord control panel…");
+      setStatus(
+        "info",
+        "<strong>Status:</strong> Submitting your booking to our Discord control panel…"
+      );
 
       try {
+        // 1) Send to staff via webhook (unchanged behaviour)
         const res = await fetch(DISCORD_WEBHOOK_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             username: "Emirates Unified — Bookings",
-            embeds: [embed]
-          })
+            embeds: [embed],
+          }),
         });
 
         if (!res.ok) {
           throw new Error("Webhook returned " + res.status);
         }
 
+        // 2) Ask the bot API to DM the primary contact (if configured)
+        if (BOT_API_BASE && primaryDiscordId) {
+          try {
+            await fetch(`${BOT_API_BASE}/api/booking`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                bookingRef,
+                simulator: sim,
+                cabin,
+                from,
+                to,
+                date,
+                timeOfDay,
+                paxCount,
+                primaryDiscord,
+                primaryDiscordId,
+              }),
+            });
+          } catch (err2) {
+            console.error("Failed to notify bot for booking DM:", err2);
+          }
+        }
+
         setStatus(
           "success",
           `<strong>Booking submitted!</strong> Your booking reference is <strong>${bookingRef}</strong>.<br>Keep this safe — you’ll need it for online check-in. A staff member will contact you on Discord once your cabin is validated.`
         );
-
-        // Optional: reset form except simulator/cabin/passenger count
-        // e.target.reset(); // comment this out if you prefer to keep values
       } catch (err) {
         console.error(err);
         setStatus(
@@ -1119,6 +1180,6 @@ const BOT_API_BASE = 'https://your-bot-api-host-here';
         );
       }
     });
-  </script>
+</script>
 </body>
 </html>
