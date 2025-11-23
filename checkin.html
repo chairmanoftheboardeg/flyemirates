@@ -881,80 +881,109 @@
   </footer>
 
   <script>
-    // ---- CONFIG ----
-    const CHECKIN_WEBHOOK_URL =
-      "https://discord.com/api/webhooks/1437125074095177900/04FqmmLk-zT5M_GSxQU3NtsCpVg0YjvdX9Ks0QfpNcNkwLaTkUEqhnyuCFQwzp7WZ5Gu";
+  // ---- BOT API CONFIG ----
+  // Set this to your bot's public URL when hosted:
+  // const BOT_API_BASE = "https://egr-bot.onrender.com";
+  const BOT_API_BASE = "";
 
-    const statusArea = document.getElementById("statusArea");
+  // ---- CONFIG ----
+  const CHECKIN_WEBHOOK_URL =
+    "PUT_YOUR_EXISTING_CHECKIN_WEBHOOK_URL_HERE";
 
-    function setStatus(type, message) {
-      statusArea.style.display = "block";
-      statusArea.className = "status-banner " + type;
-      statusArea.innerHTML = message;
+  const statusArea = document.getElementById("statusArea");
+
+  function setStatus(type, message) {
+    statusArea.style.display = "block";
+    statusArea.className = "status-banner " + type;
+    statusArea.innerHTML = message;
+  }
+
+  function updateSummary() {
+    const ref = document.getElementById("bookingRef").value.trim();
+    const sim = document.getElementById("simulator").value;
+    const cabin = document.getElementById("cabin").value;
+    const from = document.getElementById("from").value.trim();
+    const to = document.getElementById("to").value.trim();
+    const date = document.getElementById("date").value;
+    const roblox = document.getElementById("roblox").value.trim();
+
+    document.getElementById("summaryRef").textContent = ref || "–";
+    document.getElementById("summarySimulator").textContent = sim;
+    document.getElementById("summaryCabin").textContent = cabin;
+    document.getElementById("summaryPassenger").textContent = roblox || "–";
+
+    document.getElementById("summaryRoute").textContent =
+      from && to
+        ? `${from} → ${to}`
+        : from
+        ? `${from} → ?`
+        : to
+        ? `? → ${to}`
+        : "–";
+
+    document.getElementById("summaryDate").textContent = date || "–";
+  }
+
+  ["bookingRef", "simulator", "cabin", "from", "to", "date", "roblox"].forEach(
+    (id) => {
+      const el = document.getElementById(id);
+      el.addEventListener("input", updateSummary);
+      el.addEventListener("change", updateSummary);
     }
+  );
 
-    function updateSummary() {
-      const ref = document.getElementById("bookingRef").value.trim();
-      const sim = document.getElementById("simulator").value;
-      const cabin = document.getElementById("cabin").value;
-      const from = document.getElementById("from").value.trim();
-      const to = document.getElementById("to").value.trim();
-      const date = document.getElementById("date").value;
-      const roblox = document.getElementById("roblox").value.trim();
+  updateSummary();
 
-      document.getElementById("summaryRef").textContent = ref || "–";
-      document.getElementById("summarySimulator").textContent = sim;
-      document.getElementById("summaryCabin").textContent = cabin;
-      document.getElementById("summaryPassenger").textContent = roblox || "–";
-
-      document.getElementById("summaryRoute").textContent =
-        from && to ? `${from} → ${to}` :
-        from ? `${from} → ?` :
-        to ? `? → ${to}` : "–";
-
-      document.getElementById("summaryDate").textContent = date || "–";
-    }
-
-    ["bookingRef","simulator","cabin","from","to","date","roblox"]
-      .forEach(id => {
-        const el = document.getElementById(id);
-        el.addEventListener("input", updateSummary);
-        el.addEventListener("change", updateSummary);
-      });
-
-    updateSummary();
-
-    document.getElementById("checkinForm").addEventListener("submit", async (e) => {
+  document
+    .getElementById("checkinForm")
+    .addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const bookingRef = document.getElementById("bookingRef").value.trim();
+      const bookingRef =
+        document.getElementById("bookingRef").value.trim();
       const simulator = document.getElementById("simulator").value;
-      const from = document.getElementById("from").value.trim() || "Not specified";
-      const to = document.getElementById("to").value.trim() || "Not specified";
+      const from =
+        document.getElementById("from").value.trim() || "Not specified";
+      const to =
+        document.getElementById("to").value.trim() || "Not specified";
       const date = document.getElementById("date").value || "Not specified";
       const cabin = document.getElementById("cabin").value;
 
       const roblox = document.getElementById("roblox").value.trim();
-      const discordUser = document.getElementById("discordUser").value.trim();
-      const discordId = document.getElementById("discordId").value.trim();
-      const seatPreference = document.getElementById("seatPreference").value;
+      const discordUser =
+        document.getElementById("discordUser").value.trim();
+      const discordId =
+        document.getElementById("discordId").value.trim();
+      const seatPreference =
+        document.getElementById("seatPreference").value;
       const baggage = document.getElementById("baggage").value;
-      const checkinType = document.getElementById("checkinType").value;
+      const checkinType =
+        document.getElementById("checkinType").value;
 
-      const assistance = document.getElementById("assistance").value.trim();
+      const assistance =
+        document.getElementById("assistance").value.trim();
       const notes = document.getElementById("notes").value.trim();
       const agree = document.getElementById("agree").checked;
 
       if (!bookingRef) {
-        setStatus("error", "<strong>Missing booking reference.</strong> Please enter the reference from your booking confirmation.");
+        setStatus(
+          "error",
+          "<strong>Missing booking reference.</strong> Please enter the reference from your booking confirmation."
+        );
         return;
       }
       if (!roblox || !discordUser) {
-        setStatus("error", "<strong>Missing passenger details.</strong> Roblox and Discord usernames are required.");
+        setStatus(
+          "error",
+          "<strong>Missing passenger details.</strong> Roblox and Discord usernames are required."
+        );
         return;
       }
       if (!agree) {
-        setStatus("error", "<strong>Please confirm:</strong> tick the box to confirm you understand this is a virtual Roblox flight.");
+        setStatus(
+          "error",
+          "<strong>Please confirm:</strong> tick the box to confirm you understand this is a virtual Roblox flight."
+        );
         return;
       }
 
@@ -963,7 +992,11 @@
         description: `A passenger has submitted online check-in for booking \`${bookingRef}\`.`,
         color: 0xc20e1a,
         fields: [
-          { name: "Booking reference", value: "`" + bookingRef + "`", inline: true },
+          {
+            name: "Booking reference",
+            value: "`" + bookingRef + "`",
+            inline: true,
+          },
           { name: "Simulator", value: simulator, inline: true },
           { name: "Cabin booked", value: cabin, inline: true },
           { name: "Route", value: `${from} → ${to}`, inline: false },
@@ -971,50 +1004,82 @@
           { name: "Check-in type", value: checkinType, inline: true },
           {
             name: "Passenger",
-            value: `Roblox: \`${roblox}\`\nDiscord: \`${discordUser}\`${discordId ? `\nDiscord ID: \`${discordId}\`` : ""}`,
-            inline: false
+            value:
+              `Roblox: \`${roblox}\`\nDiscord: \`${discordUser}\`` +
+              (discordId ? `\nDiscord ID: \`${discordId}\`` : ""),
+            inline: false,
           },
           {
             name: "Preferences",
             value: `Seat: ${seatPreference}\nBaggage: ${baggage}`,
-            inline: false
-          }
+            inline: false,
+          },
         ],
         footer: {
-          text: "Emirates Airlines (Unified) — Online Check-in system"
+          text: "Emirates Airlines (Unified) — Online Check-in system",
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       };
 
       if (assistance) {
         embed.fields.push({
           name: "Special assistance",
           value: assistance.substring(0, 1024),
-          inline: false
+          inline: false,
         });
       }
       if (notes) {
         embed.fields.push({
           name: "Notes for crew",
           value: notes.substring(0, 1024),
-          inline: false
+          inline: false,
         });
       }
 
-      setStatus("info", "<strong>Status:</strong> Submitting your check-in to our Discord control panel…");
+      setStatus(
+        "info",
+        "<strong>Status:</strong> Submitting your check-in to our Discord control panel…"
+      );
 
       try {
+        // 1) Send to staff via webhook (unchanged behaviour)
         const res = await fetch(CHECKIN_WEBHOOK_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             username: "Emirates Unified — Online Check-in",
-            embeds: [embed]
-          })
+            embeds: [embed],
+          }),
         });
 
         if (!res.ok) {
           throw new Error("Webhook returned " + res.status);
+        }
+
+        // 2) Ask the bot API to DM the passenger (if configured)
+        if (BOT_API_BASE && discordId) {
+          try {
+            await fetch(`${BOT_API_BASE}/api/checkin`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                bookingRef,
+                simulator,
+                cabin,
+                from,
+                to,
+                date,
+                roblox,
+                discordUser,
+                discordId,
+                seatPreference,
+                baggage,
+                checkinType,
+              }),
+            });
+          } catch (err2) {
+            console.error("Failed to notify bot for check-in DM:", err2);
+          }
         }
 
         setStatus(
@@ -1029,6 +1094,6 @@
         );
       }
     });
-  </script>
+</script>
 </body>
 </html>
