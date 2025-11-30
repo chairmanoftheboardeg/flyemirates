@@ -1,66 +1,358 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Contact Us | Emirates Airlines (Unified)</title>
-<link rel="stylesheet" href="assets/css/style.css">
-<script defer src="assets/js/main.js"></script>
-<script>
-async function submitSupport(e){
-  e.preventDefault();
-  const data = Object.fromEntries(new FormData(e.target).entries());
-  const REF = makeId('SUP');
-  const embed = {
-    username:"Support Center",
-    embeds:[{
-      title:"New Support Request",
-      color:3447003,
-      fields:[
-        {name:"Name", value:data.name, inline:true},
-        {name:"Email", value:data.email, inline:true},
-        {name:"Message", value:data.message}
-      ],
-      footer:{text:`Ref ${REF}`}
-    }]
-  };
-  const ok = await sendToWebhook("https://discord.com/api/webhooks/1437119535248572557/fG1vXZNOet5pAEb2rS42ReqBIzbYciAGQvf3qp_hCqrabmFaeyiIIqIAOv5UlQuQEyOl", embed);
-  document.getElementById('out').innerHTML = ok
-    ? `<div class='card'><h3>Received ✅</h3><p>Reference: <strong>${REF}</strong>. We’ll follow up shortly.</p></div>`
-    : "<div class='alert'>Could not send. Please try again.</div>";
-}
-</script>
+  <meta charset="utf-8" />
+  <title>Contact Us — Emirates Airlines (Unified)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Redirecting you to the Emirates Group Roblox Support Center." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --brand-red:#c20e1a;
+      --brand-red-dark:#8b0b13;
+      --brand-gold:#d1a23a;
+      --ink:#111827;
+      --muted:#9ca3af;
+      --bg:#0b1120;
+      --line:#e5e7eb;
+      --radius-lg:20px;
+      --shadow-soft:0 22px 45px rgba(15,23,42,.65);
+    }
+
+    *{box-sizing:border-box;}
+    html,body{
+      margin:0;
+      padding:0;
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at top left,#fef2f2 0,transparent 55%),
+        radial-gradient(circle at bottom right,#e0f2fe 0,transparent 55%),
+        #020617;
+      color:#f9fafb;
+      height:100%;
+      min-height:100vh;
+      overflow:hidden;
+    }
+
+    /* Fullscreen layout */
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* Background lines like speed trails */
+    .bg-line{
+      position:absolute;
+      left:-20%;
+      right:-20%;
+      height:2px;
+      background:linear-gradient(90deg,transparent,rgba(248,250,252,.4),transparent);
+      opacity:.35;
+      animation: slide-lines 4s linear infinite;
+    }
+    .bg-line:nth-child(1){top:15%;animation-delay:-1s;}
+    .bg-line:nth-child(2){top:35%;animation-delay:-2.2s;}
+    .bg-line:nth-child(3){top:55%;animation-delay:-3.4s;}
+    .bg-line:nth-child(4){top:75%;animation-delay:-1.7s;}
+
+    @keyframes slide-lines{
+      0%{transform:translateX(-10%);}
+      100%{transform:translateX(10%);}
+    }
+
+    /* Card */
+    .card{
+      position:relative;
+      z-index:5;
+      max-width:520px;
+      width:100%;
+      background:radial-gradient(circle at top,#fecaca,#fee2e2 20%,#020617 75%);
+      border-radius:var(--radius-lg);
+      box-shadow:var(--shadow-soft);
+      padding:22px 22px 20px;
+      border:1px solid rgba(248,250,252,.18);
+      overflow:hidden;
+    }
+
+    /* Mini top strip */
+    .card-strip{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:.78rem;
+      color:#fde68a;
+      margin-bottom:8px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:3px 9px;
+      border-radius:999px;
+      background:rgba(15,23,42,.7);
+      border:1px solid rgba(248,250,252,.2);
+    }
+    .pill-dot{
+      width:8px;height:8px;border-radius:999px;
+      background:#22c55e;
+      box-shadow:0 0 0 3px rgba(34,197,94,.32);
+    }
+
+    .logo-row{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:12px;
+    }
+    .brand-logo{
+      width:70px;
+      height:26px;
+      border-radius:6px;
+      background:linear-gradient(180deg,#e51b24,#b3101a);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      font-size:.78rem;
+      letter-spacing:.16em;
+      color:#fff;
+      box-shadow:0 4px 12px rgba(0,0,0,.35);
+    }
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .brand-text span:first-child{
+      font-weight:600;
+      font-size:.95rem;
+    }
+    .brand-text span:last-child{
+      font-size:.78rem;
+      color:#fde68a;
+    }
+
+    h1{
+      margin:0 0 6px;
+      font-family:Merriweather,Georgia,serif;
+      font-size:1.45rem;
+    }
+    p{
+      margin:0 0 8px;
+      font-size:.9rem;
+      color:#e5e7eb;
+    }
+
+    /* Plane animation */
+    .plane-track{
+      position:relative;
+      margin:14px 0 10px;
+      height:60px;
+      overflow:visible;
+    }
+    .track-line{
+      position:absolute;
+      top:50%;
+      left:0;
+      right:0;
+      height:3px;
+      border-radius:999px;
+      background:linear-gradient(90deg,#fee2e2,#f97316,#22c55e);
+      opacity:.6;
+    }
+    .plane-icon{
+      position:absolute;
+      top:50%;
+      left:-10%;
+      transform:translate(-50%,-50%);
+      font-size:1.6rem;
+      animation: fly 3s ease-in-out infinite;
+    }
+    @keyframes fly{
+      0%{left:-10%;transform:translate(-50%,-50%) rotate(7deg);}
+      50%{left:50%;transform:translate(-50%,-52%) rotate(3deg);}
+      100%{left:110%;transform:translate(-50%,-50%) rotate(-2deg);}
+    }
+
+    /* Progress bar & countdown */
+    .progress-wrap{
+      margin-top:6px;
+    }
+    .progress-label{
+      display:flex;
+      justify-content:space-between;
+      font-size:.78rem;
+      color:#fefce8;
+      margin-bottom:3px;
+    }
+    .progress-outer{
+      width:100%;
+      height:6px;
+      border-radius:999px;
+      background:rgba(15,23,42,.75);
+      overflow:hidden;
+      border:1px solid rgba(248,250,252,.2);
+    }
+    .progress-inner{
+      width:0%;
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg,#fed7aa,#fb923c,#f97316);
+      box-shadow:0 0 12px rgba(248,250,252,.5);
+      transition:width .15s linear;
+    }
+
+    .actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:12px;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:8px 14px;
+      border-radius:999px;
+      border:none;
+      background:#f9fafb;
+      color:#111827;
+      font-size:.85rem;
+      font-weight:600;
+      cursor:pointer;
+      box-shadow:0 10px 25px rgba(15,23,42,.4);
+      text-decoration:none;
+    }
+    .btn:hover{
+      background:#e5e7eb;
+      transform:translateY(-1px);
+    }
+    .small-note{
+      font-size:.78rem;
+      color:#e5e7eb;
+    }
+
+    @media(max-width:600px){
+      .card{padding:18px 16px 16px;}
+      h1{font-size:1.25rem;}
+    }
+  </style>
 </head>
 <body>
-<div class="nav"><div class="container">
-  <a class="brand" href="index.html"><img src="https://upload.wikimedia.org/wikipedia/commons/6/61/Emirates_logo.svg" alt="Emirates"><span>Emirates Airlines (Unified)</span></a>
-  <ul>
-    <li><a href="booking.html">Book</a></li><li><a href="about.html">About Us</a></li><li><a href="staff.html">Our Staff</a></li>
-    <li><a href="contact.html" style="font-weight:700">Contact Us</a></li><li><a href="skywards.html">Emirates Skywards</a></li>
-    <li><a href="flight-status.html">Flight Status</a></li><li><a href="checkin.html">Online Check-In</a></li>
-    <li><a href="discover.html">Discover</a></li><li><a href="links.html">Links</a></li><li><a href="legal.html">Legal</a></li>
-  </ul>
-</div></div>
+  <div class="wrap">
+    <!-- background lines -->
+    <div class="bg-line"></div>
+    <div class="bg-line"></div>
+    <div class="bg-line"></div>
+    <div class="bg-line"></div>
 
-<div class="container">
-  <h1>Contact Us</h1>
-  <p class="note">Use this form to reach our Customer Service team.</p>
-  <form class="form" onsubmit="submitSupport(event)">
-    <div class="row">
-      <input class="input" name="name" placeholder="Your Name" required>
-      <input class="input" type="email" name="email" placeholder="Email" required>
+    <!-- main redirect card -->
+    <div class="card">
+      <div class="card-strip">
+        <div class="pill">
+          <span class="pill-dot"></span>
+          <span>Secure redirect via Emirates Group Roblox</span>
+        </div>
+        <span style="opacity:.9;">Contact &amp; Support</span>
+      </div>
+
+      <div class="logo-row">
+        <div class="brand-logo">EGR</div>
+        <div class="brand-text">
+          <span>Emirates Airlines (Unified)</span>
+          <span>Redirecting you to our Support Center…</span>
+        </div>
+      </div>
+
+      <h1>We’re taking you to our Support Center.</h1>
+      <p>
+        To keep everything in one place, all contact requests are handled through the
+        <strong>Emirates Group Roblox Support Center</strong>.
+      </p>
+      <p class="small-note">
+        You’ll be redirected automatically in <span id="countdown">5</span> seconds.
+      </p>
+
+      <div class="plane-track" aria-hidden="true">
+        <div class="track-line"></div>
+        <div class="plane-icon">✈️</div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>Preparing your secure connection…</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-outer">
+          <div class="progress-inner" id="progressInner"></div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="redirectNow">Go to Support Center now</button>
+        <span class="small-note">
+          If you’re not redirected automatically, click the button above.
+        </span>
+      </div>
     </div>
-    <textarea class="input" name="message" placeholder="How can we help?" rows="5" required></textarea>
-    <button class="btn">Send</button>
-  </form>
-  <div id="out"></div>
-</div>
+  </div>
 
-<footer><div class="container cols">
-  <div><h3>Emirates Airlines (Unified)</h3><div class="note">A virtual airline within the Emirates Group Roblox ecosystem.</div></div>
-  <div><h4>Support</h4><a href="https://emiratesgrouproblox.link/support" target="_blank" rel="noopener">Support Center</a><br><a href="https://discord.gg/RaudauJNn9" target="_blank" rel="noopener">Discord</a></div>
-  <div><h4>Legal</h4><a href="legal.html">Terms & Policies</a><br><small class="muted">&copy; 2025 Emirates Group Roblox</small></div>
-</div></footer>
+  <script>
+    (function(){
+      const TARGET = "https://emiratesgrouproblox.link/support";
+      const totalSeconds = 5;
 
-<div id="cookie" class="cookie"><div><strong>We use cookies.</strong><div class="note">We use essential cookies to keep this site working and to improve your experience.</div></div><button class="btn" onclick="acceptCookies()">Accept</button></div>
+      let remaining = totalSeconds;
+      let elapsed = 0;
+
+      const countdownEl = document.getElementById("countdown");
+      const progressInner = document.getElementById("progressInner");
+      const progressPercent = document.getElementById("progressPercent");
+      const redirectBtn = document.getElementById("redirectNow");
+
+      function updateUI(){
+        countdownEl.textContent = remaining;
+        const pct = Math.min(100, Math.round((elapsed / totalSeconds) * 100));
+        progressInner.style.width = pct + "%";
+        progressPercent.textContent = pct + "%";
+      }
+
+      function goNow(){
+        window.location.href = TARGET;
+      }
+
+      redirectBtn.addEventListener("click", goNow);
+
+      // tick every 100ms for smooth progress
+      const timer = setInterval(function(){
+        elapsed += 0.1;
+        remaining = Math.max(0, (totalSeconds - elapsed)).toFixed(1);
+
+        // show whole seconds in countdown
+        countdownEl.textContent = Math.ceil(remaining);
+
+        const pct = Math.min(100, (elapsed / totalSeconds) * 100);
+        progressInner.style.width = pct + "%";
+        progressPercent.textContent = Math.round(pct) + "%";
+
+        if(elapsed >= totalSeconds){
+          clearInterval(timer);
+          goNow();
+        }
+      }, 100);
+
+      // Failsafe: hard redirect after 10s even if interval dies
+      setTimeout(goNow, 10000);
+    })();
+  </script>
 </body>
 </html>
