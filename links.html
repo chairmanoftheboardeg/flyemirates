@@ -8,6 +8,330 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
   <!-- paste SAME <style> from about.html -->
+  <style>
+    :root{
+      --brand-red:#c20e1a;
+      --brand-red-dark:#8b0b13;
+      --brand-gold:#d1a23a;
+      --ink:#111827;
+      --ink-soft:#374151;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --bg-page:#f4f5f7;
+      --bg-card:#ffffff;
+      --radius-lg:18px;
+      --radius-md:12px;
+      --shadow-soft:0 18px 40px rgba(15,23,42,.14);
+      --shadow-subtle:0 4px 12px rgba(15,23,42,.10);
+    }
+    *{box-sizing:border-box;}
+    html,body{
+      margin:0;
+      padding:0;
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at top left,#fef2f2 0,transparent 55%),
+        radial-gradient(circle at bottom right,#e0f2fe 0,transparent 55%),
+        var(--bg-page);
+      color:var(--ink);
+      min-height:100vh;
+    }
+    a{color:var(--brand-red);text-decoration:none;}
+    a:hover{text-decoration:underline;}
+
+    /* Brand strip + nav */
+    .brand-strip{
+      background:var(--brand-red);
+      color:#fff;
+      font-size:.85rem;
+    }
+    .brand-strip-inner{
+      max-width:1200px;
+      margin:0 auto;
+      padding:6px 16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .brand-strip-inner .mini-links a{
+      color:#fee2e2;
+      margin-left:12px;
+    }
+    .brand-strip-inner .mini-links a:hover{
+      color:#fff;
+      text-decoration:underline;
+    }
+
+    .nav{
+      background:#171717;
+      color:#fff;
+      box-shadow:0 2px 6px rgba(0,0,0,.25);
+    }
+    .nav-inner{
+      max-width:1200px;
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:700;
+      color:#fff;
+      white-space:nowrap;
+    }
+    .brand-logo{
+      width:96px;
+      height:30px;
+      border-radius:6px;
+      background:linear-gradient(180deg,#e51b24,#b3101a);
+      position:relative;
+      overflow:hidden;
+      box-shadow:var(--shadow-subtle);
+    }
+    .brand-logo::after{
+      content:"EGR";
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      letter-spacing:.16em;
+      font-size:.9rem;
+    }
+    .nav-menu{
+      margin:0;
+      padding:0;
+      list-style:none;
+      display:flex;
+      flex-wrap:wrap;
+      gap:4px;
+      flex:1;
+    }
+    .nav-menu li a{
+      display:block;
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:.86rem;
+      color:#e5e7eb;
+    }
+    .nav-menu li a:hover{
+      background:rgba(255,255,255,.12);
+      text-decoration:none;
+    }
+    .nav-menu .cta a{
+      background:var(--brand-red);
+      color:#fff;
+      box-shadow:var(--shadow-subtle);
+    }
+    .nav-menu .cta a:hover{background:var(--brand-red-dark);}
+
+    @media(max-width:720px){
+      .nav-inner{flex-direction:column;align-items:flex-start;}
+    }
+
+    /* Page hero */
+    .page-hero{
+      max-width:1200px;
+      margin:18px auto 8px;
+      padding:18px 18px 20px;
+      border-radius:var(--radius-lg);
+      background:linear-gradient(135deg,#fef2f2,#fefce8);
+      border:1px solid #fecaca;
+      box-shadow:var(--shadow-soft);
+    }
+    .page-eyebrow{
+      font-size:.78rem;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:#b91c1c;
+      margin-bottom:4px;
+    }
+    .page-hero h1{
+      margin:0 0 6px;
+      font-family:Merriweather,Georgia,serif;
+      font-size:1.7rem;
+    }
+    .page-hero p{
+      margin:0;
+      font-size:.95rem;
+      color:var(--ink-soft);
+      max-width:720px;
+    }
+
+    /* Layout */
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:0 18px 26px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:16px;
+    }
+    .col-4{grid-column:span 4;}
+    .col-6{grid-column:span 6;}
+    .col-8{grid-column:span 8;}
+    .col-12{grid-column:span 12;}
+    @media(max-width:900px){
+      .col-4,.col-6,.col-8,.col-12{grid-column:span 12;}
+    }
+
+    .card{
+      background:var(--bg-card);
+      border-radius:var(--radius-lg);
+      border:1px solid var(--line);
+      padding:18px 18px 16px;
+      box-shadow:var(--shadow-soft);
+    }
+    .card h2{
+      margin:0 0 8px;
+      font-size:1.2rem;
+    }
+    .card h3{
+      margin:0 0 6px;
+      font-size:1.05rem;
+    }
+    .card p{
+      margin:0 0 10px;
+      font-size:.92rem;
+      color:var(--muted);
+    }
+    ul.clean{
+      margin:0;
+      padding-left:18px;
+      font-size:.9rem;
+      color:var(--muted);
+    }
+    ul.clean li{margin:.25rem 0;}
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 9px;
+      border-radius:999px;
+      border:1px solid #fee2e2;
+      background:#fff7ed;
+      color:#9a3412;
+      font-size:.78rem;
+      margin-bottom:6px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:9px 14px;
+      border-radius:999px;
+      background:var(--brand-red);
+      color:#fff;
+      font-size:.86rem;
+      font-weight:600;
+      border:none;
+      box-shadow:var(--shadow-soft);
+    }
+    .btn:hover{
+      background:var(--brand-red-dark);
+      text-decoration:none;
+    }
+    .btn.alt{
+      background:#fff;
+      color:var(--ink);
+      border:1px solid var(--line);
+      box-shadow:none;
+    }
+    .btn.alt:hover{
+      background:#f3f4f6;
+    }
+
+    .muted{color:var(--muted);font-size:.86rem;}
+
+    footer{
+      background:#111827;
+      color:#9ca3af;
+      border-top:2px solid var(--brand-red);
+      margin-top:26px;
+      font-size:.8rem;
+    }
+    .footer-inner{
+      max-width:1200px;
+      margin:0 auto;
+      padding:14px 18px 16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .footer-logo{
+      width:80px;
+      height:26px;
+      border-radius:4px;
+      background:linear-gradient(180deg,#e51b24,#b3101a);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      font-size:.75rem;
+      letter-spacing:.16em;
+      color:#fff;
+    }
+    @media(max-width:600px){
+      .footer-inner{flex-direction:column;align-items:flex-start;}
+    }
+  </style>
+</head>
+<body>
+  <!-- Brand strip -->
+  <div class="brand-strip">
+    <div class="brand-strip-inner">
+      <div><strong>Emirates Airlines (Unified)</strong> — a virtual airline operated by Emirates Group Roblox</div>
+      <div class="mini-links">
+        <a href="links.html">Links</a>
+        <a href="legal.html">Legal</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav" aria-label="Primary navigation">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-logo" aria-hidden="true"></span>
+        <span>Emirates Airlines (Unified)</span>
+      </a>
+      <ul class="nav-menu" role="menubar">
+        <li role="none"><a role="menuitem" href="booking.html">Book</a></li>
+        <li role="none"><a role="menuitem" href="checkin.html">Online check-in</a></li>
+        <li role="none"><a role="menuitem" href="flight-status.html">Flight status</a></li>
+        <li role="none"><a role="menuitem" href="discover.html">Discover</a></li>
+        <li role="none"><a role="menuitem" href="skywards.html">Skywards</a></li>
+        <li role="none"><a role="menuitem" href="staff.html">Our staff</a></li>
+        <li role="none"><a role="menuitem" href="about.html">About us</a></li>
+        <li role="none"><a role="menuitem" href="contact.html">Contact</a></li>
+        <li class="cta" role="none"><a role="menuitem" href="booking.html">Book a flight</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page hero -->
+  <section class="page-hero">
+    <div class="page-eyebrow">About Emirates Airlines (Unified)</div>
+    <h1>A virtual airline inspired by real-world excellence.</h1>
+    <p>
+      Emirates Airlines (Unified) is the flagship virtual carrier of Emirates Group Roblox, operating realistic,
+      scheduled services across PTFS and RO-Aviation with a focus on hospitality, safety, and immersive RP.
+    </p>
+  </section>
 </head>
 <body>
   <!-- SAME brand strip + nav -->
@@ -80,5 +404,14 @@
   </main>
 
   <!-- SAME footer -->
+  <footer>
+  <div class="footer-inner">
+    <span>
+      © 2025 Emirates Group Roblox. All rights reserved. This virtual airline is not affiliated with,
+      sponsored by, or endorsed by Emirates or the Emirates Group.
+    </span>
+    <div class="footer-logo">EGR</div>
+  </div>
+</footer>
 </body>
 </html>
